@@ -84,12 +84,13 @@ class Blog(models.Model):
     content = RichTextUploadingField(blank=True, null=True, config_name='special',
                                      external_plugin_resources=[('youtube',
                                                                  '/static/ckeditor/plugins/youtube_2.1.14/youtube/',
-                                                                 'plugin.js',
-                                                                 )],
-                                     )
+                                                                 'plugin.js',)], )
 
     def get_absolute_url(self):
         return reverse('blog:blog-detail', args=[str(self.id)])
+
+    def __str__(self):
+        return self.title
 
 
 class BlogComment(models.Model):
@@ -97,3 +98,6 @@ class BlogComment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_set')
     comment = models.CharField(max_length=20, blank=False)
+
+    def __int__(self):
+        return self.id
