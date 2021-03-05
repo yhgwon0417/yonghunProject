@@ -3,8 +3,7 @@
 
 from django import forms
 
-
-from ..models import Blog
+from ..models import Blog, BlogComment
 
 
 class BlogForm(forms.ModelForm):
@@ -14,4 +13,15 @@ class BlogForm(forms.ModelForm):
         labels = {
             "title": '제목',
             "content": "내용",
+        }
+
+
+class BlogCommentForm(forms.ModelForm):
+    class Meta:
+        fields = {
+            'comment'
+        }
+        model = BlogComment
+        labels = {
+            "comment": "내용",
         }

@@ -17,5 +17,9 @@ urlpatterns = [
     path("<int:pk>/update/", views.BlogUpdateView.as_view(), name='update'),
     path("<int:pk>/delete/", views.BlogDeleteView.as_view(), name='delete'),
 
+    path("<int:blog_pk>/comment/create", views.BlogCommentCreateView.as_view(), name='comment_create'),
+
+
+
     # url(r'^api/', include(router.urls))
 ]

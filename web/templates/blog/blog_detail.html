@@ -20,12 +20,16 @@
 
 <div>
     <ul>
-
         {%include "blog/comment_item.html" %}
-
     </ul>
 </div>
 
+<div class="well">
+    <form method="post">{% csrf_token %}
+        {{form|crispy }}
+        <input type="submit" value="Create" class="btn btn-primary">
+    </form>
+</div>
 
 <a class="btn btn-primary" href="./{{blog.id}}/update">수정</a>
 <a class="btn btn-primary" href="./{{blog.id}}/delete">삭제</a>
