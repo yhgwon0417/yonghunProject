@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'rest_framework.authtoken',
-    'mptt',
 ]
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
