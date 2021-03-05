@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<table class="table table-hover table-bordered">
+    <thead>
+    <tr class="table-info">
+        <!--        <th>번호</th>-->
+        <th>내용</th>
+
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <!--        <td>{{institution.id}}</td>-->
+
+        <td>{{blog.content|safe}}</td>
+
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="./{{blog.id}}/update">수정</a>
+<a class="btn btn-primary" href="./{{blog.id}}/delete">삭제</a>
+{% endblock %}
+
+

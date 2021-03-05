@@ -1,0 +1,212 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home"
+           aria-selected="false">경력사항</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+           aria-selected="false">보유기술</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+           aria-selected="false">자격증</a>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="well" style="margin-top:20px;">
+            {% for item in company %}
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample{{forloop.counter}}" aria-expanded="false"
+                    aria-controls="multiCollapseExample{{forloop.counter}}">
+                {{item.start_date|date:"Y-m-d"}}~{{item.end_date|date:"Y-m-d"}} : {{item.name}}
+                <span class="badge badge-primary badge-pill" style="color:blue;">({{item.schedule_set.count}})</span>
+            </button>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="row">
+                {% for item in company %}
+                <div class="collapse multi-collapse" id="multiCollapseExample{{forloop.counter}}"
+                     style="margin:10px;">
+                    <div class="card card-body">
+                        <h5>{{item.name}}</h5>
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th>시작일</th>
+                                <th>종료일</th>
+                                <th>기관명</th>
+                                <th>점검대상</th>
+                                <th>역할</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for schedule in item.schedule_set.all|dictsort:'start_date' %}
+                            <tr>
+                                <td>{{schedule.start_date|date:"Y-m-d"}}</td>
+                                <td>{{schedule.end_date|date:"Y-m-d"}}</td>
+                                <td>{{schedule.institution}}</td>
+                                <td>
+                                    {% for inspection in schedule.inspection_set.all %}
+                                    {{inspection.system}}({{inspection.count}})
+                                    {% endfor %}
+                                </td>
+                                <td>PE</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="well" style="margin-top:20px;">
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample1" aria-expanded="false"
+                    aria-controls="multiCollapseExample1">
+                모의해킹
+            </button>
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample2" aria-expanded="false"
+                    aria-controls="multiCollapseExample2">
+                웹 사이트 개발
+            </button>
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample3" aria-expanded="false"
+                    aria-controls="multiCollapseExample3">
+                자동화
+            </button>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample1"
+                     style="margin:10px;">
+                    <div class="card card-body">
+                        웹 모의해킹
+                        모바일 모의해킹
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample2"
+                    style="margin:10px;">
+                    <div class="card card-body">
+                        Django + React
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample3"
+                     style="margin:10px;">
+                    <div class="card card-body">
+                        업무자동화(한글, 엑셀, PPT, 웹자동화)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="well" style="margin-top:20px;">
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample1" aria-expanded="false"
+                    aria-controls="multiCollapseExample1">
+                정보처리기사
+            </button>
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample2" aria-expanded="false"
+                    aria-controls="multiCollapseExample2">
+                CISSP
+            </button>
+            <button class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample3" aria-expanded="false"
+                    aria-controls="multiCollapseExample3">
+                정보보안기사
+            </button>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample1"
+                     style="margin:10px;">
+                    <div class="card">
+                        <h5 class="card-header">정보처리기사</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">주관 : 한국산업인력공단</h5>
+                            <h5 class="card-title">취득 : 2018.08</h5>
+                            <p class="card-text">데이터베이스, 전자계산기 등</p>
+                            <a href="http://www.q-net.or.kr/crf005.do?id=crf00503&jmCd=1320"
+                               class="btn btn-primary">정보처리기사</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample2"
+                     style="margin:10px;">
+                    <div class="card">
+                        <h5 class="card-header">CISSP Associate</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">주관 : ISC2</h5>
+                            <h5 class="card-title">취득 : 2020.10</h5>
+                            <p class="card-text">데이터베이스, 전자계산기 등</p>
+                            <a href="https://isc2.org/" class="btn btn-primary">ISC2</a>
+                            <div data-iframe-width="300" data-iframe-height="300"
+                                 data-share-badge-id="c0c3c9be-c3ca-4063-b4e8-a0dc9649b6e3"
+                                 data-share-badge-host="https://www.youracclaim.com"></div>
+                            <script type="text/javascript" async
+                                    src="//cdn.youracclaim.com/assets/utilities/embed.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse multi-collapse" id="multiCollapseExample3"
+                     style="margin:10px;">
+                    <div class="card">
+                        <h5 class="card-header">정보보안기사</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">주관 : 한국인터넷진흥원</h5>
+                            <h5 class="card-title">취득 : 2020.12</h5>
+                            <p class="card-text"> 정보보호에 대한 지식과 운용 경험을 바탕으로 실무적인 시스템과 서버, 네트워크 장비 및 보안시스템
+                                운용을 통해, 보안업무 및 보안정책수립과 보안대책 구현, 정보보호 관련 법규 준수 여부를 판단하는 등의
+                                업무 수행</p>
+                            <a href="https://kisq.or.kr/main/main.do" class="btn btn-primary">정보보안국가기술자격검정센터</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
+triggerTabList.forEach(function (triggerEl) {
+  var tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', function (event) {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
+
+var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+var collapseList = collapseElementList.map(function (collapseEl) {
+  return new bootstrap.Collapse(collapseEl)
+})
+
+
+</script>
+
+
+{% endblock %}
