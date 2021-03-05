@@ -24,7 +24,7 @@ SECRET_KEY = '7sehy8po%1$xhy-5t(%2c@p!ou=wf0ww1vgzi@@q$tv&_uc!xo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yonghun.net', 'www.yonghun.net']
 
 # Application definition
 
