@@ -1,7 +1,10 @@
 <ul>
 {% for comment in comment_list %}
-    {% for comment in comment.child_set.all.as_tree %}
-        {{comment}}
-    {% endfor %}
+    <li>{{ comment.id }}</li>
+    {% if comment.child_set.all %}
+       {% with comment.child_set.all as comment_list %}
+            {% include "blog/comment_item.html" %}
+        {% endwith %}
+    {% endif %}
 {% endfor %}
 </ul>
