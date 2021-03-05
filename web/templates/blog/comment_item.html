@@ -1,0 +1,7 @@
+<ul>
+{% for comment in comment_list %}
+    {% for comment in comment.child_set.all.as_tree %}
+        {{comment}}
+    {% endfor %}
+{% endfor %}
+</ul>

@@ -13,10 +13,19 @@
     <tr>
         <!--        <td>{{institution.id}}</td>-->
         <td>{{blog.content|safe}}</td>
-        </td>
     </tr>
     </tbody>
 </table>
+
+
+<div>
+    <ul>
+
+        {%include "blog/comment_item.html" %}
+
+    </ul>
+</div>
+
 
 <a class="btn btn-primary" href="./{{blog.id}}/update">수정</a>
 <a class="btn btn-primary" href="./{{blog.id}}/delete">삭제</a>
