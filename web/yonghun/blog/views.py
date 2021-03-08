@@ -1,6 +1,7 @@
 from django import http
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.http import request
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -57,9 +58,8 @@ class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
 
     def form_valid(self, form):  # form_valid함수
         comment = form.save(commit=False)  # form데이터를 저장. 그러나 쿼리실행은 x
-        comment.blog = get_object_or_404(Blog,
-                                         pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
-        # comment.user = self.request.user  # 댓글쓴 사람 설정.
+        comment.blog = get_object_or_404(Blog, pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
+        comment.created_by = self.request.user  # 댓글쓴 사람 설정.
         comment.save()  # 수정된 내용대로 저장. 쿼리실행
 
         return super(BlogDetailView, self).form_valid(form)
@@ -83,16 +83,6 @@ class BlogDeleteView(generic.DeleteView):
     model = Blog
     template_name = 'blog/blog_confirm_delete.html'
     success_url = '/yonghun/blog'
-
-    def delete(self, request, *args, **kwargs):
-        # the Post object
-        self.object = self.get_object()
-        if self.object.User == request.user:
-            success_url = self.get_success_url()
-            self.object.delete()
-            return http.HttpResponseRedirect(success_url)
-        else:
-            return http.HttpResponseForbidden("Cannot delete other's posts")
 
 
 class BlogCommentCreateView(generic.CreateView):

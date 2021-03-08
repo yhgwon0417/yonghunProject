@@ -51,7 +51,7 @@
                             <tr>
                                 <td>{{schedule.start_date|date:"Y-m-d"}}</td>
                                 <td>{{schedule.end_date|date:"Y-m-d"}}</td>
-                                <td>{{schedule.institution}}</td>
+                                <td>***(비공개)***</td>
                                 <td>
                                     {% for inspection in schedule.inspection_set.all %}
                                     {{inspection.system}}({{inspection.count}})

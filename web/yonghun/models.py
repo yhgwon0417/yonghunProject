@@ -81,6 +81,8 @@ class BlogType(models.Model):
 class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_create')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_update')
 
     type = models.ForeignKey(BlogType, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=20, blank=False)
@@ -98,8 +100,8 @@ class Blog(models.Model):
 class BlogComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True, related_name='create')
-    # updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True, related_name='update')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_comment_create')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_comment_update')
 
     blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_set')

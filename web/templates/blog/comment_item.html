@@ -1,10 +1,22 @@
+
+{% load static %}
 <ul>
-{% for comment in comment_list %}
-    <li>{{comment.user}} : {{ comment.id }}</li>
+    {% for comment in comment_list %}
+    <li>{{comment.created_by}} : {{ comment.id }}
+        <img src="{% static 'img/speech-bubble.png' %}" width="10px" onClick="javascript:reply({{comment.id}});"/>
+    </li>
     {% if comment.child_set.all %}
-       {% with comment.child_set.all as comment_list %}
-            {% include "blog/comment_item.html" %}
-        {% endwith %}
+    {% with comment.child_set.all as comment_list %}
+    {% include "blog/comment_item.html" %}
+    {% endwith %}
     {% endif %}
-{% endfor %}
+    {% endfor %}
 </ul>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+function reply(id){
+            alert(id);
+            $('#id_parent').val(id);
+           }
+</script>
