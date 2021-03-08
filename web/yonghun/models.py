@@ -79,25 +79,28 @@ class BlogType(models.Model):
 
 
 class Blog(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     type = models.ForeignKey(BlogType, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=20, blank=False)
     content = RichTextUploadingField(blank=True, null=True, config_name='special',
                                      external_plugin_resources=[('youtube',
                                                                  '/static/ckeditor/plugins/youtube_2.1.14/youtube/',
-                                                                 'plugin.js',)], )
+                                                                 'plugin.js',
+                                                                 )],
+                                     )
 
     def get_absolute_url(self):
         return reverse('blog:blog-detail', args=[str(self.id)])
 
-    def __str__(self):
-        return self.title
-
 
 class BlogComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True, related_name='create')
+    # updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True, related_name='update')
+
     blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_set')
     comment = models.CharField(max_length=20, blank=False)
-
-    def __int__(self):
-        return self.id

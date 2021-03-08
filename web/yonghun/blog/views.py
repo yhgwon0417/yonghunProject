@@ -1,3 +1,4 @@
+from django import http
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import request
@@ -6,7 +7,6 @@ from django.urls import reverse
 from django.views import generic
 from django.views.generic.edit import FormMixin
 from django_filters.views import FilterView
-from requests import post
 from rest_framework.generics import ListAPIView
 
 from . import BlogSerializer
@@ -15,14 +15,25 @@ from .forms import BlogForm, BlogCommentForm
 from ..models import Blog, BlogComment
 
 
-class BlogListView(FilterView):
+def is_member(user):
+    return user.groups.filter(name='일반').exists()
+
+
+class BlogListView(LoginRequiredMixin, FilterView):
     filterset_class = Blogfilter
     template_name = 'blog/blog_list.html'  # your own name for the list as a template variable
 
 
-class BlogDetailView(FormMixin, generic.DetailView):
-    model = Blog
+class BlogListView2(ListAPIView):
+    # filterset_class = Blogfilter
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    # template_name = 'blog/blog_list2.html'  # your own name for the list as a template variable
 
+
+class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
+    model = Blog
+    fields = ['name', ]
     template_name = 'blog/blog_detail.html'
     form_class = BlogCommentForm
 
@@ -32,31 +43,36 @@ class BlogDetailView(FormMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         context['comment_list'] = BlogComment.objects.filter(blog=self.kwargs['pk'], parent=None)
-
-        context['form'] = BlogCommentForm(initial={'user': self.request.user, 'blog': self.object})
+        context['form'] = BlogCommentForm
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
+    def post(self, request, *args, **kwargs):  # post요청이 들어왔을때.
+        self.object = self.get_object()  # 현재페이지 object get.
+        form = self.get_form()  # form데이터 받아오기
+
+        if form.is_valid():  # form의 내용이 정상적일 경우
+            return self.form_valid(form)  # form_valid함수 콜
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
-        form.save()
+    def form_valid(self, form):  # form_valid함수
+        comment = form.save(commit=False)  # form데이터를 저장. 그러나 쿼리실행은 x
+        comment.blog = get_object_or_404(Blog,
+                                         pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
+        # comment.user = self.request.user  # 댓글쓴 사람 설정.
+        comment.save()  # 수정된 내용대로 저장. 쿼리실행
+
         return super(BlogDetailView, self).form_valid(form)
 
 
-class BlogCreateView(generic.CreateView):
+class BlogCreateView(LoginRequiredMixin, generic.CreateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_create.html'
     success_url = '/yonghun/blog'
 
 
-class BlogUpdateView(generic.UpdateView):
+class BlogUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_update_form.html'
@@ -67,6 +83,16 @@ class BlogDeleteView(generic.DeleteView):
     model = Blog
     template_name = 'blog/blog_confirm_delete.html'
     success_url = '/yonghun/blog'
+
+    def delete(self, request, *args, **kwargs):
+        # the Post object
+        self.object = self.get_object()
+        if self.object.User == request.user:
+            success_url = self.get_success_url()
+            self.object.delete()
+            return http.HttpResponseRedirect(success_url)
+        else:
+            return http.HttpResponseForbidden("Cannot delete other's posts")
 
 
 class BlogCommentCreateView(generic.CreateView):

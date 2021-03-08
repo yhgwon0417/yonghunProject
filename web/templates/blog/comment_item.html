@@ -1,6 +1,6 @@
 <ul>
 {% for comment in comment_list %}
-    <li>{{ comment.id }}</li>
+    <li>{{comment.user}} : {{ comment.id }}</li>
     {% if comment.child_set.all %}
        {% with comment.child_set.all as comment_list %}
             {% include "blog/comment_item.html" %}
