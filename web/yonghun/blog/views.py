@@ -1,9 +1,11 @@
+from django import http
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import request
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
+from django.views.generic.edit import FormMixin
 from django_filters.views import FilterView
 from rest_framework.generics import ListAPIView
 
@@ -13,7 +15,11 @@ from .forms import BlogForm, BlogCommentForm
 from ..models import Blog, BlogComment
 
 
-class BlogListView(FilterView):
+def is_member(user):
+    return user.groups.filter(name='일반').exists()
+
+
+class BlogListView(LoginRequiredMixin, FilterView):
     filterset_class = Blogfilter
     template_name = 'blog/blog_list.html'  # your own name for the list as a template variable
 
@@ -25,14 +31,14 @@ class BlogListView2(ListAPIView):
     # template_name = 'blog/blog_list2.html'  # your own name for the list as a template variable
 
 
-class BlogDetailView(generic.DetailView):
+class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
     model = Blog
     fields = ['name', ]
     template_name = 'blog/blog_detail.html'
     form_class = BlogCommentForm
 
     def get_success_url(self):  # post처리가 성공한뒤 행할 행동
-        return reverse('photo:blog_detail', kwargs={'pk': self.object.pk})
+        return reverse('blog:blog-detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
@@ -53,20 +59,20 @@ class BlogDetailView(generic.DetailView):
         comment = form.save(commit=False)  # form데이터를 저장. 그러나 쿼리실행은 x
         comment.blog = get_object_or_404(Blog,
                                          pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
-        comment.parent = self.object.parent
-        comment.user = self.user  # 댓글쓴 사람 설정.
+        # comment.user = self.request.user  # 댓글쓴 사람 설정.
         comment.save()  # 수정된 내용대로 저장. 쿼리실행
+
         return super(BlogDetailView, self).form_valid(form)
 
 
-class BlogCreateView(generic.CreateView):
+class BlogCreateView(LoginRequiredMixin, generic.CreateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_create.html'
     success_url = '/yonghun/blog'
 
 
-class BlogUpdateView(generic.UpdateView):
+class BlogUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_update_form.html'
@@ -77,6 +83,16 @@ class BlogDeleteView(generic.DeleteView):
     model = Blog
     template_name = 'blog/blog_confirm_delete.html'
     success_url = '/yonghun/blog'
+
+    def delete(self, request, *args, **kwargs):
+        # the Post object
+        self.object = self.get_object()
+        if self.object.User == request.user:
+            success_url = self.get_success_url()
+            self.object.delete()
+            return http.HttpResponseRedirect(success_url)
+        else:
+            return http.HttpResponseForbidden("Cannot delete other's posts")
 
 
 class BlogCommentCreateView(generic.CreateView):

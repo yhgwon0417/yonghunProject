@@ -31,6 +31,7 @@
     <thead>
     <tr class="table-info">
         <th class="align-middle text-center">번호</th>
+        <th class="align-middle text-center">작성일</th>
         <th class="align-middle text-center">구분</th>
         <th>제목</th>
         </th>
@@ -40,6 +41,7 @@
     {% for blog in filter.qs %}
     <tr>
         <td class="align-middle text-center">{{blog.id}}</td>
+        <td class="align-middle text-center">{{blog.updated_at|date:"y-m-d"}}</td>
         <td class="align-middle text-center">{{blog.type}}</td>
         <td class="align-middle"><a href="{{blog.get_absolute_url}}">{{blog.title}}</a></td>
         </td>

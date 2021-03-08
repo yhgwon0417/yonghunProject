@@ -19,9 +19,14 @@ class BlogForm(forms.ModelForm):
 class BlogCommentForm(forms.ModelForm):
     class Meta:
         fields = {
+            'parent',
             'comment'
         }
-        model = BlogComment
         labels = {
             "comment": "내용",
         }
+        widgets = {
+            'parent': forms.HiddenInput
+        }
+
+        model = BlogComment
