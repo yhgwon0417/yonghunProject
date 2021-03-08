@@ -1,9 +1,13 @@
 
-{% load static %}
 <ul>
     {% for comment in comment_list %}
-    <li>{{comment.created_by}} : {{ comment.id }}
-        <img src="{% static 'img/speech-bubble.png' %}" width="10px" onClick="javascript:reply({{comment.id}});"/>
+    <li class="list-group-item mb-1">
+        <h5 class="">{{comment.comment}}</h5>
+        <div>
+            <p class="mb-1" style="display:inline-block">{{comment.created_by}}</p>
+            <small class="text-muted">{{comment.created_at|date:"y-m-d H:m:s"}} {% ifequal user.id comment.created_by.id %}
+                <button onClick="javscript:update({{comment.created_by.id}});">수정</button>{% endifequal %}
+            </small></div>
     </li>
     {% if comment.child_set.all %}
     {% with comment.child_set.all as comment_list %}
@@ -13,10 +17,3 @@
     {% endfor %}
 </ul>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
-<script type="text/javascript">
-function reply(id){
-            alert(id);
-            $('#id_parent').val(id);
-           }
-</script>

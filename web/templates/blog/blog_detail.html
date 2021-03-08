@@ -1,7 +1,25 @@
 {% extends "base_generic.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+function reply(id){
+            alert(id);
+            $('#id_parent').val(id);
+           }
 
+function update(id){
+alert(id);
+document.getElementById("#id_comment").scrollIntoView();
+            $('#id_comment').focus();
+           }
+
+<!--function delete(id){-->
+<!-- alert(id);-->
+<!--            $('#id_parent').val(id);-->
+<!--           }-->
+
+</script>
 <table class="table table-hover table-bordered">
     <thead>
     <tr class="table-info">
@@ -18,10 +36,8 @@
 </table>
 
 
-<div>
-    <ul>
-        {%include "blog/comment_item.html" %}
-    </ul>
+<div class="well">
+    {%include "blog/comment_item.html" %}
 </div>
 
 <div class="well">
