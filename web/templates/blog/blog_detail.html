@@ -3,16 +3,18 @@
 {% block content %}
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script type="text/javascript">
-function reply(id){
-            alert(id);
-            $('#id_parent').val(id);
-           }
 
-function update(id){
-alert(id);
-document.getElementById("#id_comment").scrollIntoView();
-            $('#id_comment').focus();
-           }
+function update(id_parent, id_comment){
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#id_comment").offset().top
+    }, 2000);
+    var com_id = '#id_comment_comment_'+id_comment;
+    alert($(com_id).text());
+    $("#id_comment").val($(com_id).text());
+    $("#id_comment").focus();
+    $("#id_parent").val(id_parent);
+    $("#id_id").val(id_comment);
+}
 
 <!--function delete(id){-->
 <!-- alert(id);-->

@@ -20,10 +20,8 @@ from rest_framework import routers
 
 from . import views
 from .blog import BlogSerializer
+from .comment import CommentSerializer
 from .views import HelloAPI, RegistrationAPI, LoginAPI, UserAPI, ProfileUpdateAPI
-
-# router = routers.DefaultRouter()
-# router.register(r'movies', BlogSerializer.BlogViewSet)
 
 urlpatterns = [
     path("", views.index, name='index'),
@@ -31,6 +29,7 @@ urlpatterns = [
 
     path("profile/", include('yonghun.profile.urls')),
     path("blog/", include('yonghun.blog.urls')),
+    # path("blog/comment/", include('yonghun.comment.urls')),
     path("contact/", include('yonghun.contact.urls')),
 
     path("auth/register/", RegistrationAPI.as_view()),
@@ -38,5 +37,4 @@ urlpatterns = [
     path("auth/user/", UserAPI.as_view()),
     path("auth/profile/<int:user_pk>/update/", ProfileUpdateAPI.as_view()),
 
-    # url(r'^', include(router.urls))
 ]

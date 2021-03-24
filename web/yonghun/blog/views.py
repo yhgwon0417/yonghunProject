@@ -44,7 +44,7 @@ class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         context['comment_list'] = BlogComment.objects.filter(blog=self.kwargs['pk'], parent=None)
-        context['form'] = BlogCommentForm
+        context['form'] = BlogCommentForm(initial={'id':None, 'created_by': self.request.user, 'parent':None, 'blog':self.object.id })
         return context
 
     def post(self, request, *args, **kwargs):  # post요청이 들어왔을때.
@@ -59,6 +59,7 @@ class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
     def form_valid(self, form):  # form_valid함수
         comment = form.save(commit=False)  # form데이터를 저장. 그러나 쿼리실행은 x
         comment.blog = get_object_or_404(Blog, pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
+        comment.id = form.id
         comment.created_by = self.request.user  # 댓글쓴 사람 설정.
         comment.save()  # 수정된 내용대로 저장. 쿼리실행
 
