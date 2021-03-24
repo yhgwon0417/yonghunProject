@@ -10,7 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'list', BlogSerializer.BlogViewSet)
 
 urlpatterns = [
-    # path('', views.BlogListView.as_view(), name='index'),
+    path('', views.BlogListView.as_view(), name='index'),
     # path('list', views.BlogListView.as_view(), name='list'),
     # path("create/", views.BlogCreateView.as_view(), name='create'),
     # path('<int:pk>', views.BlogDetailView.as_view(), name='blog-detail'),
