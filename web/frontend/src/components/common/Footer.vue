@@ -1,6 +1,6 @@
 <template>
 	<footer>
-		<p>copyRight fyzh99.tistory.com</p>
+		<p>COPYRIGHT by yonghun.net</p>
 	</footer>
 </template>
 
