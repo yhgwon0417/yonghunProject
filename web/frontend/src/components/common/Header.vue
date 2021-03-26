@@ -1,13 +1,22 @@
 <template>
 	<header>
-		<!-- <h1><router-link to="/"><img alt="Vue logo" src="../../assets/logo.png" width="80"></router-link></h1> -->
-		<div class="menuWrap">
-			<ul class="menu">
-				<li><router-link to="/profile/list">프로필</router-link></li>
-				<li><router-link to="/board/list">게시판</router-link></li>
-				<li><a href="javascript:;">메뉴3</a></li>
-				<li><a href="javascript:;">메뉴4</a></li>
-			</ul>
+		<div>
+		<b-navbar type="dark" variant="dark">
+			<b-navbar-nav>
+			<b-nav-item href="#"><router-link to="/">홈</router-link></b-nav-item>
+
+			<!-- Navbar dropdowns -->
+			<b-nav-item-dropdown text="프로필" left>
+				<b-dropdown-item href="#"><router-link to="/profile/list">경력</router-link></b-dropdown-item>
+				<b-dropdown-item href="#">자격증</b-dropdown-item>
+				<b-dropdown-item href="#">보유기술</b-dropdown-item>
+			</b-nav-item-dropdown>
+
+			<b-nav-item-dropdown text="게시판" left>
+				<b-dropdown-item href="#"><router-link to="/board/list">블로그</router-link></b-dropdown-item>
+			</b-nav-item-dropdown>
+			</b-navbar-nav>
+		</b-navbar>
 		</div>
 	</header>
 </template>
@@ -19,11 +28,6 @@ export default {
 </script>
 
 <style scoped>
-header{width:100%; text-align:center; position:relative; height:120px; border-bottom:1px solid #35495e}
-header h1{position:absolute; top:0; left:100px;}
-header ul.menu:after{display:block; clear:both; content:'';}
-header ul.menu{position:absolute; top:20px; right:50px;}
-header ul.menu li{float:left; padding:10px 20px; list-style:none;}
+header{width:100%; text-align:center; position:relative; height:0.5%; background-color:rgb(234, 161, 48); border-bottom:1px solid #35495e}
 
-a{text-decoration:none; color:#333;}
 </style>

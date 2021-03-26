@@ -5,47 +5,9 @@
 		<div class="searchWrap">
 			<input type="text" v-model="keyword" @keyup.enter="fnSearch" /><a href="javascript:;" @click="fnSearch" class="btnSearch btn">검색</a>
 		</div>
-
-		<div class="listWrap">
-			<table class="tbList">
-				<colgroup>
-					<col width="6%" />
-					<col width="*" />
-					<col width="10%" />
-					<col width="15%" />
-				</colgroup>
-				<tr>
-					<th>no</th>
-					<th>제목</th>
-					<th>아이디</th>
-					<th>날짜</th>
-				</tr>
-				<tr v-for="(row, idx) in list" :key="idx">
-					<td>{{idx}}</td>
-					<td class="txt_left"><a href="javascript:;" @click="fnView(`${row.num}`)">{{row.title}}</a></td>
-					<td>{{row.created_by}}</td>
-					<td>{{row.created_at}}</td>
-				</tr>
-				<tr v-if="list.length == 0">
-					<td colspan="4">데이터가 없습니다.</td>
-				</tr>
-			</table>
-		</div>
-
-		<div class="pagination" v-if="paging.totalCount > 0">
-			<a href="javascript:;" @click="fnPage(1)" class="first">&lt;&lt;</a>
-			<a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"  class="prev">&lt;</a>
-			<template v-for=" (n,index) in paginavigation()">
-				<template v-if="paging.page==n">
-					<strong :key="index">{{n}}</strong>
-				</template>
-				<template v-else>
-					<a href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{n}}</a>
-				</template>
-			</template>
-			<a href="javascript:;" v-if="paging.total_page > paging.end_page" @click="fnPage(`${paging.end_page+1}`)"  class="next">&gt;</a>
-			<a href="javascript:;" @click="fnPage(`${paging.total_page}`)" class="last">&gt;&gt;</a>
-		</div>
+		<div> <b-table striped hover :items="list" :fields="fields">
+			
+			</b-table></div>
 
 		<div class="btnRightWrap">
 			<a @click="fnAdd" class="btn">등록</a>
@@ -55,7 +17,14 @@
 
 <script>
 export default {
+	
 	data() { //변수생성
+			const fields = [
+			{ key: 'id', label: '번호' },
+			{ key: 'created_by', label: '작성자' },
+			{ key: 'created_at', label: '작성일'},
+			{ key: 'title', label: '제목' },
+			]		  
 		return{
 			body:'' //리스트 페이지 데이터전송
 			,type:'' //게시판코드
@@ -71,7 +40,10 @@ export default {
 				var end_page = this.paging.end_page;
 				for (var i = start_page; i <= end_page; i++) pageNumber.push(i);
 				return pageNumber;
-			}
+			},
+			// fields
+			fields: fields,
+			
 		}
 	}
 	,mounted() { //페이지 시작하면은 자동 함수 실행

@@ -32,7 +32,7 @@
 export default {
 	data() { //변수 생성
 		return{
-			type:1
+			type:''
 			,title:''
 			,content:''
 			,form:'' //form 전송 데이터
@@ -41,6 +41,16 @@ export default {
 	,methods:{
 		fnList(){ //리스트 화면으로 이동 함수
 			this.$router.push({path:'./list',query:this.body});
+			
+		},
+		fnGetType(){
+			this.$axios.post('http://localhost:8000/yonghun/type/list/')
+			.then((res)=>{
+				console.log(res);
+			})
+			.then((err)=>{
+				console.log(err);
+			})
 			
 		}
 		,fnAddProc() { //등록 프로세스
@@ -56,7 +66,7 @@ export default {
 				,content:this.content
 			} 
 			
-			this.$axios.post('http://localhost:8000/yonghun/blog/comment/list/',this.form)
+			this.$axios.post('http://localhost:8000/yonghun/blog/list/',this.form)
 			.then((res)=>{
 				if(res.data) {
 					alert('등록되었습니다.');

@@ -1,18 +1,18 @@
 from rest_framework import serializers, viewsets
 
-from ..models import Blog
+from ..models import Blog, Comment
 
 
-class BlogSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Blog
+        model = Comment
         fields = '__all__'
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Blog.objects.all()
+    queryset = Comment.objects.all()
 
-    serializer_class = BlogSerializer
+    serializer_class = CommentSerializer
 
     filter_fields = '__all__'
     ordering_fields = '__all__'

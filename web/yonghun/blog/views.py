@@ -13,7 +13,7 @@ from rest_framework.generics import ListAPIView
 from . import BlogSerializer
 from .filters import Blogfilter
 from .forms import BlogForm, BlogCommentForm
-from ..models import Blog, BlogComment
+from ..models import Blog, Comment
 
 
 def is_member(user):
@@ -43,7 +43,7 @@ class BlogDetailView(LoginRequiredMixin, FormMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
-        context['comment_list'] = BlogComment.objects.filter(blog=self.kwargs['pk'], parent=None)
+        context['comment_list'] = Comment.objects.filter(blog=self.kwargs['pk'], parent=None)
         context['form'] = BlogCommentForm(initial={'id':None, 'created_by': self.request.user, 'parent':None, 'blog':self.object.id })
         return context
 
@@ -87,7 +87,7 @@ class BlogDeleteView(generic.DeleteView):
 
 
 class BlogCommentCreateView(generic.CreateView):
-    model = BlogComment
+    model = Comment
     form_class = BlogCommentForm
 
     template_name = 'blog/blogcomment_create.html'

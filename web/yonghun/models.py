@@ -97,11 +97,13 @@ class Blog(models.Model):
         return reverse('blog:blog-detail', args=[str(self.id)])
 
 
-class BlogComment(models.Model):
+class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_comment_create')
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_comment_update')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
+                                   related_name='blog_comment_create')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
+                                   related_name='blog_comment_update')
 
     blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_set')

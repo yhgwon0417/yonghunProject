@@ -1,12 +1,12 @@
 from django.conf.urls import url
-from django.urls import path, include
+from django.urls import  include
 from rest_framework import routers
 
-from . import CommentSerializer
+from . import ScheduleSerializer
 
-app_name = 'comment'
+app_name = 'schedule'
 router = routers.DefaultRouter()
-router.register(r'list', CommentSerializer.CommentViewSet)
+router.register(r'list', ScheduleSerializer.ScheduleViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls))

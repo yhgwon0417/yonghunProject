@@ -29,6 +29,11 @@ urlpatterns = [
 
     path("profile/", include('yonghun.profile.urls')),
     path("blog/", include('yonghun.blog.urls')),
+    path("comment/", include('yonghun.comment.urls')),
+    path("company/", include('yonghun.company.urls')),
+    path("schedule/", include('yonghun.schedule.urls')),
+    path("type/", include('yonghun.type.urls')),
+
     # path("blog/comment/", include('yonghun.comment.urls')),
     path("contact/", include('yonghun.contact.urls')),
 

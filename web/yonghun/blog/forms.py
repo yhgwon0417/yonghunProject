@@ -3,7 +3,7 @@
 
 from django import forms
 
-from ..models import Blog, BlogComment
+from ..models import Blog, Comment
 
 
 class BlogForm(forms.ModelForm):
@@ -19,7 +19,7 @@ class BlogForm(forms.ModelForm):
 
 class BlogCommentForm(forms.ModelForm):
     class Meta:
-        model = BlogComment
+        model = Comment
         fields = [
             'id',
             'blog',

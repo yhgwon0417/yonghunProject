@@ -1,6 +1,7 @@
 <template>
 	<footer>
-		<p>COPYRIGHT by yonghun.net</p>
+		<p>
+		COPYRIGHT by yonghun.net</p>
 	</footer>
 </template>
 
@@ -11,5 +12,6 @@ export default {
 </script>
 
 <style scoped>
-footer{border-top:1px solid #35495e; text-align:center; font-size:16px; color:#41b883; margin:100px 0 0 0;}
+footer{height:50px; border-top:1px; background-color:black;  vertical-align:center; text-align:center; font-size:16px; color:#41b883; margin:0 0 0 0;}
+
 </style>

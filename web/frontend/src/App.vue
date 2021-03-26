@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <Header />
+    <div class="wrap">
     <div class="container"> <!-- class 추가 -->
       <router-view />
     </div>
-
+    </div>
     <Footer />
   </div>
 </template>
@@ -33,10 +34,10 @@ html,body{padding:0; margin:0;}
   text-align: center;
   color: #2c3e50;
 }
-h1{color:#43b984;}
-table{width:100%; border-collapse:collapse;}
+
+
 .wrap{width:100%;}
-.container{width:800px; margin:0 auto;}
-a{text-decoration:none;}
-.btn{padding:10px; background:#34445c; color:#fff;}
+.container{width:80%; padding:10px; margin:0 auto;}
+
+
 </style>
