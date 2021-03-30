@@ -32,6 +32,8 @@ urlpatterns = [
     path("comment/", include('yonghun.comment.urls')),
     path("company/", include('yonghun.company.urls')),
     path("schedule/", include('yonghun.schedule.urls')),
+    path("inspection/", include('yonghun.inspection.urls')),
+    path("system/", include('yonghun.system.urls')),
     path("type/", include('yonghun.type.urls')),
 
     # path("blog/comment/", include('yonghun.comment.urls')),

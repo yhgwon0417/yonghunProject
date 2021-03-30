@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<h2>게시판 리스트</h2>
-
 		<div class="searchWrap">
 			<input type="text" v-model="keyword" @keyup.enter="fnSearch" /><a href="javascript:;" @click="fnSearch" class="btnSearch btn">검색</a>
 		</div>
-		<div> <b-table striped hover :items="list" :fields="fields">
-			
-			</b-table></div>
-
+		<div> 
+			<b-table striped hover :items="list" :fields="fields">
+				
+			</b-table>
+		</div>
 		<div class="btnRightWrap">
 			<a @click="fnAdd" class="btn">등록</a>
 		</div>

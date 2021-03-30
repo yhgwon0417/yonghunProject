@@ -2,11 +2,11 @@ from django.conf.urls import url
 from django.urls import  include
 from rest_framework import routers
 
-from . import InspectionSerializer, InspectionSerializer
+from . import SystemSerializer
 
-app_name = 'inspection'
+app_name = 'System'
 router = routers.DefaultRouter()
-router.register(r'list', InspectionSerializer.InspectionViewSet)
+router.register(r'list', SystemSerializer.SystemViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls))

@@ -37,7 +37,7 @@ html,body{padding:0; margin:0;}
 
 
 .wrap{width:100%;}
-.container{width:80%; padding:10px; margin:0 auto;}
+.container{width:80%; padding:10px; margin:0 auto; min-height:700px;}
 
 
 </style>
