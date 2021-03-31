@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers, viewsets
+from rest_framework.pagination import PageNumberPagination
 
 from ..models import Blog
 
@@ -12,7 +13,7 @@ class BlogSerializer(serializers.ModelSerializer):
 
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
-
+    # pagination_class = PageNumberPagination
     serializer_class = BlogSerializer
 
     filter_backends = (DjangoFilterBackend,)

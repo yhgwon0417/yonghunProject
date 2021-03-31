@@ -5,10 +5,14 @@ import router from './routes'; //설정 라우터 호출
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
+import VueTyperPlugin from 'vue-typer';
 
 
-Vue.use(VueMoment);
+
+Vue.use(VueTyperPlugin)
+
+Vue.use(VueMoment)
 
 Vue.use(BootstrapVue)
 
