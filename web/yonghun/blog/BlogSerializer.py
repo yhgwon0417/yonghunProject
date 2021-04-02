@@ -1,11 +1,15 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers, viewsets
 from rest_framework.pagination import PageNumberPagination
 
 from ..models import Blog
+from ..type import TypeSerializer
 
 
-class BlogSerializer(serializers.ModelSerializer):
+class BlogSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
+    type = TypeSerializer.TypeSerializer()
+
     class Meta:
         model = Blog
         fields = '__all__'

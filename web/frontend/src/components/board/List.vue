@@ -18,9 +18,9 @@
     </div>
     <div class="overflow-auto">
       <b-pagination
-        v-model="offset"
-        :total-rows="rows"
-        :per-page="limit"
+        v-model="pagination.offset"
+        :total-rows="pagination.rows"
+        :per-page="pagination.limit"
         aria-controls="my-table"
       ></b-pagination>
 
@@ -28,20 +28,20 @@
         :fields="fields"
         id="my-table"
         :items="list"
-        :per-page="limit"
-        :current-page="offset"
+        :per-page="pagination.limit"
+        :current-page="pagination.offset"
       >
         <template #cell(created_at)="data">
           {{ $moment(data.item.created_at).format("YYYY-MM-DD") }}
         </template>
         <template #cell(title)="data">
-          <a href="#" v-on:click="fnView(`${data.item.id}`)">{{
+          <a href="#" v-on:click="fnProcView(`${data.item.id}`)">{{
             data.item.title
           }}</a>
         </template>
       </b-table>
       <div class="btnRightWrap">
-        <a @click="fnAdd" class="btn">등록</a>
+        <a @click="fnProcWrite" class="btn">등록</a>
       </div>
     </div>
   </div>
@@ -58,15 +58,21 @@ export default {
       { key: "title", label: "제목" },
     ];
     return {
-      limit: 10,
-      offset: 0,
-      rows: "",
+      pagination: {
+        limit: 10,
+        offset: 0,
+        rows: "",
+      },
 
-      body: "", //리스트 페이지 데이터전송
+      form: {
+        id: "",
+        type: "",
+        title: "",
+        content: ""
+      },
       search_term: "",
-      type: "", //게시판코드
+
       list: "", //리스트 데이터
-      id: "",
 
       // fields
       fields: fields,
@@ -78,19 +84,12 @@ export default {
   },
   methods: {
     fnGetList() {
-      //데이터 가져오기 함수
-      this.body = {
-        // 데이터 전송
-        type: this.type,
-        search_term: this.search_term,
-        id: this.id,
-      };
       this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/", { params: this.body })
+        .get("http://localhost:8000/yonghun/blog/list/")
         .then((res) => {
           if (res.data.results) {
             this.list = res.data.results;
-            this.rows = res.data.count;
+            this.pagination.rows = res.data.count;
             // console.log(res.data);
             // this.paging = res.data.paging;
             // this.no = this.paging.totalCount - ((this.paging.page-1) * this.paging.ipp);
@@ -102,12 +101,27 @@ export default {
           console.log(err);
         });
     },
-    fnAdd() {
+    fnGetOne(id) {
+      
+      this.$axios
+        .get("http://localhost:8000/yonghun/blog/list/"+id+"/")
+        .then((res) => {
+          if (res.data.results) {
+            this.list = res.data.results;
+          } else {
+            alert("실행중 실패했습니다.\n다시 이용해 주세요.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    fnProcWrite() {
       this.$router.push("./write");
     },
-    fnView(index) {
-      this.body.id = index;
-      this.$router.push({ path: "./view", query: this.body }); //추가한 상세페이지 라우터
+    fnProcView(id) {
+      this.form.id = id;
+      this.$router.push({ path: "./view", query: this.form }); //추가한 상세페이지 라우터
     },
   },
 };

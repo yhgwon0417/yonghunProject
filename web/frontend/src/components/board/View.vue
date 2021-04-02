@@ -10,6 +10,12 @@
             <col width="*" />
           </colgroup>
           <tr>
+            <th>타입</th>
+            <td>
+              {{ type.name }}
+            </td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>{{ title }}</td>
           </tr>
@@ -21,10 +27,13 @@
       </form>
     </div>
     <div class="btnWrap">
-      <a href="javascript:;" @click="fnMod" class="btn">수정</a>
+      <a href="javascript:;" @click="fnProcMod" class="btn">수정</a>
     </div>
     <div class="btnWrap">
-      <a href="javascript:;" @click="fnList" class="btn">목록</a>
+      <a href="javascript:;" @click="fnDoDelete" class="btn">삭제</a>
+    </div>
+    <div class="btnWrap">
+      <a href="javascript:;" @click="fnProcList" class="btn">목록</a>
     </div>
   </div>
 </template>
@@ -33,11 +42,11 @@
 export default {
   data() {
     return {
-      body: this.$route.query,
+      form: this.$route.query,
+      id: "",
+      type: "",
       title: "",
       content: "",
-      view: "",
-      id: this.$route.query.id,
     };
   },
   mounted() {
@@ -46,8 +55,9 @@ export default {
   methods: {
     fnGetView() {
       this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/" + this.body.id)
+        .get("http://localhost:8000/yonghun/blog/list/" + this.form.id + "/")
         .then((res) => {
+          (this.id = res.data.id), (this.type = res.data.type);
           this.title = res.data.title;
           this.content = res.data.content.replace(/(\n)/g, "<br/>");
         })
@@ -55,13 +65,25 @@ export default {
           console.log(err);
         });
     },
-    fnList() {
-      delete this.body.num;
-      this.$router.push({ path: "./list", query: this.body });
+
+    fnProcList() {
+      this.$router.push({ path: "./list" });
     },
-  },
-  fnMod() {
-    this.$router.push({ path: "./wwrite", query: this.body });
+    fnProcMod() {
+      this.$router.push({ path: "./write", query: this.form });
+    },
+    fnDoDelete() {
+      this.$axios
+        .delete("http://localhost:8000/yonghun/blog/list/" + this.id + "/")
+        .then((res) => {
+          alert("삭제되었습니다.");
+          this.fnProcList();
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
