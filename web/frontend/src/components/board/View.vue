@@ -4,11 +4,7 @@
 
     <div class="AddWrap">
       <form>
-        <table class="tbAdd">
-          <colgroup>
-            <col width="15%" />
-            <col width="*" />
-          </colgroup>
+        <table>
           <tr>
             <th>타입</th>
             <td>
