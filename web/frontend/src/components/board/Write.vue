@@ -134,7 +134,7 @@ export default {
 
       this.form = {
         //backend로 전송될 POST 데이터
-        type: { id: this.type },
+        type: { id: this.type, name:"모의해킹" },
         title: this.title,
         content: this.content,
       };
