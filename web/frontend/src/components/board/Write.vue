@@ -111,6 +111,7 @@ export default {
         .then((res) => {
           if (res.data) {
             alert("수정되었습니다.");
+            this.fnList();
           } else {
             alert("실행중 실패했습니다.\n다시 이용해 주세요");
           }
