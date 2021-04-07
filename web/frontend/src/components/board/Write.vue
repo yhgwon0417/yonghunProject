@@ -28,8 +28,15 @@
       ></b-form-textarea>
     </b-form-group>
 
-    <b-button v-on:click="fnDoWrite" variant="primary">Submit</b-button>
-    <b-button v-on:click="fnDoDelete" variant="primary">Test</b-button>
+    <b-button
+      v-on:click="fnDoWrite"
+      v-if="this.menuNum == null"
+      variant="primary"
+      >등록</b-button
+    >
+    <b-button v-on:click="fnDoModify" v-if="this.menuNum == 2" variant="primary"
+      >수정</b-button
+    >
   </div>
 </template>
 
@@ -44,6 +51,7 @@ export default {
       type: "",
       title: "",
       content: "",
+      menuNum: this.$route.query.menuNum,
     };
   },
   mounted() {
@@ -94,9 +102,11 @@ export default {
         this.$refs.title.focus(); //방식으로 선택자를 찾는다.
         return;
       }
-
       this.form = {
-        type: this.type,
+        type: {
+          id: this.type,
+          name: this.options[this.type - 1].name,
+        },
         title: this.title,
         content: this.content,
         id: this.id,
@@ -105,10 +115,8 @@ export default {
       this.$axios
         .put(
           "http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/",
-          {
-            params: this.form,
-            title: this.title,
-          }
+
+          this.form
         )
         .then((res) => {
           if (res.data) {
@@ -134,10 +142,14 @@ export default {
 
       this.form = {
         //backend로 전송될 POST 데이터
-        type: { id: this.type, name:"모의해킹" },
+        type: {
+          id: this.type,
+          name: this.options[this.type - 1].name,
+        },
         title: this.title,
         content: this.content,
       };
+      console.log(this.form);
 
       this.$axios
         .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)

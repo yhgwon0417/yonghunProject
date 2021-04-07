@@ -38,6 +38,7 @@
 export default {
   data() {
     return {
+      menuNum :"",
       form: this.$route.query,
       id: "",
       type: "",
@@ -66,7 +67,9 @@ export default {
       this.$router.push({ path: "./list" });
     },
     fnProcMod() {
+      this.form.menuNum = 2;
       this.$router.push({ path: "./write", query: this.form });
+      
     },
     fnDoDelete() {
       this.$axios

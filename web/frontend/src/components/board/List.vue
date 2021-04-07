@@ -31,6 +31,9 @@
         :per-page="pagination.limit"
         :current-page="pagination.offset"
       >
+        <template #cell(type)="data">
+          {{ data.item.type.name }}
+        </template>
         <template #cell(created_at)="data">
           {{ $moment(data.item.created_at).format("YYYY-MM-DD") }}
         </template>
@@ -53,6 +56,7 @@ export default {
     //변수생성
     const fields = [
       { key: "id", label: "번호", sortable: true },
+      { key: "type", label: "분류", sortable: true },
       { key: "created_at", label: "작성일", sortable: true },
       { key: "created_by", label: "작성자" },
       { key: "title", label: "제목" },
@@ -68,7 +72,7 @@ export default {
         id: "",
         type: "",
         title: "",
-        content: ""
+        content: "",
       },
       search_term: "",
 
