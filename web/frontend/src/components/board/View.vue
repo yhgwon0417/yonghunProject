@@ -51,7 +51,7 @@ export default {
   methods: {
     fnGetView() {
       this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/" + this.form.id + "/")
+        .get("http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/")
         .then((res) => {
           (this.id = res.data.id), (this.type = res.data.type);
           this.title = res.data.title;
@@ -70,7 +70,7 @@ export default {
     },
     fnDoDelete() {
       this.$axios
-        .delete("http://localhost:8000/yonghun/blog/list/" + this.id + "/")
+        .delete("http://yonghun.net:8000/yonghun/blog/list/" + this.id + "/")
         .then((res) => {
           alert("삭제되었습니다.");
           this.fnProcList();

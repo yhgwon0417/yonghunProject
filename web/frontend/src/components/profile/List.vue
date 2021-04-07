@@ -95,7 +95,7 @@ export default {
         // 데이터 전송
       };
       this.$axios
-        .get("http://localhost:8000/yonghun/company/list", {
+        .get("http://yonghun.net:8000/yonghun/company/list", {
           params: this.body,
         })
         .then((res) => {

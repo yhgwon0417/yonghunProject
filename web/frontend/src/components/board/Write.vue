@@ -60,7 +60,7 @@ export default {
     },
     fnGetType() {
       this.$axios
-        .get("http://localhost:8000/yonghun/type/list/")
+        .get("http://yonghun.net:8000/yonghun/type/list/")
         .then((res) => {
           this.options = res.data.results;
         })
@@ -70,7 +70,7 @@ export default {
     },
     fnGetView() {
       this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/" + this.id + "/")
+        .get("http://yonghun.net:8000/yonghun/blog/list/" + this.id + "/")
         .then((res) => {
           this.id = res.data.id;
           this.type = res.data.type.id;
@@ -103,7 +103,7 @@ export default {
       };
 
       this.$axios
-        .put("http://localhost:8000/yonghun/blog/list/" + this.form.id + "/", {
+        .put("http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/", {
           params: this.form,
           title: this.title,
           type: { id: 1, name: "모의해킹" },
@@ -138,7 +138,7 @@ export default {
       };
 
       this.$axios
-        .post("http://localhost:8000/yonghun/blog/list/", this.form)
+        .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");

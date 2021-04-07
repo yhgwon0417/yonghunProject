@@ -5,6 +5,8 @@ import List from '@/components/board/List'; //게시판 리스트 컴포넌트 �
 import Write from '@/components/board/Write'; //게시판 리스트 컴포넌트 호출
 import View from '@/components/board/View';
 import Profile_List from '@/components/profile/List';
+import Certification from '@/components/profile/Certification';
+import Technic from '@/components/profile/Technic';
 
 Vue.use(Router); //vue 라우터 사용
 
@@ -32,6 +34,16 @@ export default new Router({ //라우터 연결
 			path: '/profile/list'  //상세페이지 추가
 			, name: Profile_List
 			, component: Profile_List
+		}
+		, {
+			path: '/profile/certification'  //상세페이지 추가
+			, name: Certification
+			, component: Certification
+		},
+		{
+			path: '/profile/technic'  //상세페이지 추가
+			, name: Technic
+			, component: Technic
 		}
 
 

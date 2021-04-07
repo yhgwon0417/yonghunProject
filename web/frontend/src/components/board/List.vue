@@ -85,7 +85,7 @@ export default {
   methods: {
     fnGetList() {
       this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/")
+        .get("http://yonghun.net:8000/yonghun/blog/list/")
         .then((res) => {
           if (res.data.results) {
             this.list = res.data.results;
@@ -93,21 +93,6 @@ export default {
             // console.log(res.data);
             // this.paging = res.data.paging;
             // this.no = this.paging.totalCount - ((this.paging.page-1) * this.paging.ipp);
-          } else {
-            alert("실행중 실패했습니다.\n다시 이용해 주세요.");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    fnGetOne(id) {
-      
-      this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/"+id+"/")
-        .then((res) => {
-          if (res.data.results) {
-            this.list = res.data.results;
           } else {
             alert("실행중 실패했습니다.\n다시 이용해 주세요.");
           }
