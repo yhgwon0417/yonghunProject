@@ -67,7 +67,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:8081', ]
+CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081' ]
 
 TEMPLATES = [
     {
