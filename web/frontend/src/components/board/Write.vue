@@ -28,7 +28,7 @@
       ></b-form-textarea>
     </b-form-group>
 
-    <b-button v-on:click="fnDoModify" variant="primary">Submit</b-button>
+    <b-button v-on:click="fnDoWrite" variant="primary">Submit</b-button>
     <b-button v-on:click="fnDoDelete" variant="primary">Test</b-button>
   </div>
 </template>
@@ -87,7 +87,7 @@ export default {
         this.fnGetView();
       }
     },
-  
+
     fnDoModify() {
       if (!this.title) {
         alert("제목을 입력해 주세요");
@@ -103,11 +103,13 @@ export default {
       };
 
       this.$axios
-        .put("http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/", {
-          params: this.form,
-          title: this.title,
-          type: { id: 1, name: "모의해킹" },
-        })
+        .put(
+          "http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/",
+          {
+            params: this.form,
+            title: this.title,
+          }
+        )
         .then((res) => {
           if (res.data) {
             alert("수정되었습니다.");
@@ -132,14 +134,14 @@ export default {
 
       this.form = {
         //backend로 전송될 POST 데이터
-        type: this.type,
+        type: { id: this.type },
         title: this.title,
         content: this.content,
       };
 
       this.$axios
         .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)
-        .post("http://yonghun.net:8000/yonghun/blog/list", this.form)
+
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");
