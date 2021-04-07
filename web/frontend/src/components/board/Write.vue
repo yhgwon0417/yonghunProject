@@ -139,6 +139,7 @@ export default {
 
       this.$axios
         .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)
+        .post("http://yonghun.net:8000/yonghun/blog/list", this.form)
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");
