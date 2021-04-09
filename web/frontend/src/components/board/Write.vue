@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>게시판</h1>
+
     <b-form-select
       v-model="type"
       :options="options"
@@ -19,14 +20,16 @@
       ></b-form-input>
     </b-form-group>
 
-    <b-form-group id="input-group-2" label="content:" label-for="input-2">
+    <!-- <b-form-group id="input-group-2" label="content:" label-for="input-2">
       <b-form-textarea
         id="input-2"
         v-model="content"
         placeholder="Enter name"
         required
       ></b-form-textarea>
-    </b-form-group>
+    </b-form-group> -->
+
+    <Tiptap @editorContent="editorContent" v-model="content" :props_content="this.content"></Tiptap>
 
     <b-button
       v-on:click="fnDoWrite"
@@ -41,7 +44,12 @@
 </template>
 
 <script>
+import Tiptap from "./Tiptap.vue";
+
 export default {
+  components: {
+    Tiptap,
+  },
   data() {
     //변수 생성
     return {
@@ -131,15 +139,12 @@ export default {
         });
     },
     fnDoWrite() {
-      //등록 프로세스
-
       if (!this.title) {
         //제목이 없다면 값을 입력하라고 알려준다.
         alert("제목을 입력해 주세요");
         this.$refs.title.focus(); //방식으로 선택자를 찾는다.
         return;
       }
-
       this.form = {
         //backend로 전송될 POST 데이터
         type: {
@@ -150,10 +155,8 @@ export default {
         content: this.content,
       };
       console.log(this.form);
-
       this.$axios
         .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)
-
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");
@@ -165,6 +168,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    editorContent(content) {
+      console.log(content);
+      this.content = content;
     },
   },
 };

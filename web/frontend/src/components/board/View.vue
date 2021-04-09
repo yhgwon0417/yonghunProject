@@ -19,6 +19,7 @@
             <th>내용</th>
             <td class="txt_cont" v-html="content"></td>
           </tr>
+          <tr><Tiptap></Tiptap></tr>
         </table>
       </form>
     </div>
@@ -35,10 +36,11 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      menuNum :"",
+      menuNum: "",
       form: this.$route.query,
       id: "",
       type: "",
@@ -69,7 +71,6 @@ export default {
     fnProcMod() {
       this.form.menuNum = 2;
       this.$router.push({ path: "./write", query: this.form });
-      
     },
     fnDoDelete() {
       this.$axios
