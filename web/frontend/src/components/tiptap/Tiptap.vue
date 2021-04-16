@@ -7,7 +7,7 @@
           :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
-          <icon name="bold" />
+          Bold
         </button>
 
         <button
@@ -15,7 +15,7 @@
           :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
-          <icon name="italic" />
+          Italic
         </button>
 
         <button
@@ -23,7 +23,7 @@
           :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
-          <icon name="strike" />
+          Strike
         </button>
 
         <button
@@ -31,7 +31,7 @@
           :class="{ 'is-active': isActive.underline() }"
           @click="commands.underline"
         >
-          <icon name="underline" />
+          Underline
         </button>
 
         <button
@@ -39,7 +39,7 @@
           :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
-          <icon name="code" />
+          Code
         </button>
 
         <button
@@ -47,7 +47,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          <icon name="paragraph" />
+          Paragraph
         </button>
 
         <button
@@ -79,7 +79,7 @@
           :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
-          <icon name="ul" />
+          ul
         </button>
 
         <button
@@ -87,7 +87,7 @@
           :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
-          <icon name="ol" />
+          ol
         </button>
 
         <button
@@ -95,7 +95,7 @@
           :class="{ 'is-active': isActive.blockquote() }"
           @click="commands.blockquote"
         >
-          <icon name="quote" />
+          Quote
         </button>
 
         <button
@@ -103,19 +103,19 @@
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
-          <icon name="code" />
+          code_block
         </button>
 
         <button class="menubar__button" @click="commands.horizontal_rule">
-          <icon name="hr" />
+          horizontal_rule
         </button>
 
         <button class="menubar__button" @click="commands.undo">
-          <icon name="undo" />
+          undo
         </button>
 
         <button class="menubar__button" @click="commands.redo">
-          <icon name="redo" />
+          redo
         </button>
       </div>
     </editor-menu-bar>
@@ -153,11 +153,13 @@ export default {
   },
   props: {
     props_content: String,
+    props_editable: Boolean,
   },
 
   data() {
     return {
       editor: new Editor({
+        editable: true,
         extensions: [
           new Blockquote(),
           new BulletList(),
@@ -189,7 +191,7 @@ export default {
   watch() {},
   beforeMount() {},
   mounted() {
-    this.editor.
+    
   },
   update() {},
   beforeDestroy() {

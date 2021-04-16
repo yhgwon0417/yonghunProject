@@ -19,7 +19,6 @@
             <th>내용</th>
             <td class="txt_cont" v-html="content"></td>
           </tr>
-          <tr><Tiptap></Tiptap></tr>
         </table>
       </form>
     </div>
