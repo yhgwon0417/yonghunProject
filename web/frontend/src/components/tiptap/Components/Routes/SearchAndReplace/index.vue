@@ -2,6 +2,7 @@
   <div class="editor">
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
+
         <button
           class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
@@ -23,7 +24,7 @@
           :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
-          Strike
+          <icon name="strike" />
         </button>
 
         <button
@@ -31,7 +32,7 @@
           :class="{ 'is-active': isActive.underline() }"
           @click="commands.underline"
         >
-          Underline
+          <icon name="underline" />
         </button>
 
         <button
@@ -39,7 +40,7 @@
           :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
-          Code
+          <icon name="code" />
         </button>
 
         <button
@@ -47,7 +48,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          Paragraph
+          <icon name="paragraph" />
         </button>
 
         <button
@@ -60,26 +61,10 @@
 
         <button
           class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-          @click="commands.heading({ level: 2 })"
-        >
-          H2
-        </button>
-
-        <button
-          class="menubar__button"
-          :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-          @click="commands.heading({ level: 3 })"
-        >
-          H3
-        </button>
-
-        <button
-          class="menubar__button"
           :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
-          ul
+          <icon name="ul" />
         </button>
 
         <button
@@ -87,7 +72,7 @@
           :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
-          ol
+          <icon name="ol" />
         </button>
 
         <button
@@ -95,7 +80,7 @@
           :class="{ 'is-active': isActive.blockquote() }"
           @click="commands.blockquote"
         >
-          Quote
+          <icon name="quote" />
         </button>
 
         <button
@@ -103,35 +88,66 @@
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
-          code_block
+          <icon name="code" />
         </button>
 
-        <button class="menubar__button" @click="commands.horizontal_rule">
-          horizontal_rule
+        <button
+          class="menubar__button"
+          @click="commands.undo"
+        >
+          <icon name="undo" />
         </button>
 
-        <button class="menubar__button" @click="commands.undo">
-          undo
-        </button>
-
-        <button class="menubar__button" @click="commands.redo">
-          redo
+        <button
+          class="menubar__button"
+          @click="commands.redo"
+        >
+          <icon name="redo" />
         </button>
       </div>
     </editor-menu-bar>
+
+    <div class="search">
+      <input
+        ref="search"
+        @keydown.enter.prevent="editor.commands.find(searchTerm)"
+        placeholder="Search …"
+        type="text"
+        v-model="searchTerm"
+      />
+      <input
+        @keydown.enter.prevent="editor.commands.replace(replaceWith)"
+        placeholder="Replace …"
+        type="text"
+        v-model="replaceWith"
+      />
+      <button class="button" @click="editor.commands.find(searchTerm)">
+        Find
+      </button>
+      <button class="button" @click="editor.commands.clearSearch()">
+        Clear
+      </button>
+      <button class="button" @click="editor.commands.replace(replaceWith)">
+        Replace
+      </button>
+      <button class="button" @click="editor.commands.replaceAll(replaceWith)">
+        Replace All
+      </button>
+    </div>
 
     <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
 
 <script>
-import Icon from "./Components/Icon";
-import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import Icon from 'Components/Icon'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
   CodeBlock,
   HardBreak,
   Heading,
+  HorizontalRule,
   OrderedList,
   BulletList,
   ListItem,
@@ -144,23 +160,21 @@ import {
   Strike,
   Underline,
   History,
-  HorizontalRule,
-} from "tiptap-extensions";
+  Search,
+} from 'tiptap-extensions'
 
 export default {
-  props: {
-    value: String,
-  },
   components: {
-    EditorMenuBar,
     EditorContent,
+    EditorMenuBar,
     Icon,
   },
-
   data() {
     return {
+      // searching: false,
+      searchTerm: null,
+      replaceWith: null,
       editor: new Editor({
-        editable: true,
         extensions: [
           new Blockquote(),
           new BulletList(),
@@ -179,28 +193,55 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Search({
+            disableRegex: false,
+          }),
         ],
-
-        onUpdate: ({ getHTML }) => {
-          this.$emit("editorContent", getHTML());
-        },
+        content: `
+          <h2>
+            Search and Replace
+          </h2>
+          <p>
+            Search something. 🔍 Replace something. ✂️ Or replace all the things! 💥 That's it. That's how a search works. Good luck.
+          </p>
+        `,
       }),
-    };
-  },
-
-  beforeMount() {},
-  mounted() {},
-  update() {},
-  beforeDestroy() {
-    this.editor.destroy();
-  },
-  watch: {
-    value() {
-        if(this.editor.getHTML() == '<p></p>' && this.value) {
-            this.editor.setContent(this.value);
-        }
     }
   },
-  methods: {},
-};
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+}
 </script>
+
+<style lang="scss">
+@import "~variables";
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba($color-black, 0.1);
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin: 1rem 0;
+
+  input {
+    padding: 0.25rem;
+    border: 0;
+    border-radius: 3px;
+    margin-right: 0.2rem;
+    font: inherit;
+    font-size: 0.8rem;
+    width: 20%;
+    flex: 1;
+  }
+
+  button {
+
+  }
+}
+
+.find {
+  background: rgba(255, 213, 0, 0.5);
+}
+</style>

@@ -1,7 +1,11 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <div class="menubar">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+      <div
+        class="menubar is-hidden"
+        :class="{ 'is-focused': focused }"
+      >
+
         <button
           class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
@@ -23,7 +27,7 @@
           :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
-          Strike
+          <icon name="strike" />
         </button>
 
         <button
@@ -31,7 +35,7 @@
           :class="{ 'is-active': isActive.underline() }"
           @click="commands.underline"
         >
-          Underline
+          <icon name="underline" />
         </button>
 
         <button
@@ -39,7 +43,7 @@
           :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
-          Code
+          <icon name="code" />
         </button>
 
         <button
@@ -47,7 +51,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          Paragraph
+          <icon name="paragraph" />
         </button>
 
         <button
@@ -79,7 +83,7 @@
           :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
-          ul
+          <icon name="ul" />
         </button>
 
         <button
@@ -87,7 +91,7 @@
           :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
-          ol
+          <icon name="ol" />
         </button>
 
         <button
@@ -95,7 +99,7 @@
           :class="{ 'is-active': isActive.blockquote() }"
           @click="commands.blockquote"
         >
-          Quote
+          <icon name="quote" />
         </button>
 
         <button
@@ -103,20 +107,9 @@
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
-          code_block
+          <icon name="code" />
         </button>
 
-        <button class="menubar__button" @click="commands.horizontal_rule">
-          horizontal_rule
-        </button>
-
-        <button class="menubar__button" @click="commands.undo">
-          undo
-        </button>
-
-        <button class="menubar__button" @click="commands.redo">
-          redo
-        </button>
       </div>
     </editor-menu-bar>
 
@@ -125,16 +118,16 @@
 </template>
 
 <script>
-import Icon from "./Components/Icon";
-import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import Icon from 'Components/Icon'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
+  BulletList,
   CodeBlock,
   HardBreak,
   Heading,
-  OrderedList,
-  BulletList,
   ListItem,
+  OrderedList,
   TodoItem,
   TodoList,
   Bold,
@@ -144,30 +137,23 @@ import {
   Strike,
   Underline,
   History,
-  HorizontalRule,
-} from "tiptap-extensions";
+} from 'tiptap-extensions'
 
 export default {
-  props: {
-    value: String,
-  },
   components: {
-    EditorMenuBar,
     EditorContent,
+    EditorMenuBar,
     Icon,
   },
-
   data() {
     return {
       editor: new Editor({
-        editable: true,
         extensions: [
           new Blockquote(),
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
-          new HorizontalRule(),
           new ListItem(),
           new OrderedList(),
           new TodoItem(),
@@ -180,27 +166,19 @@ export default {
           new Underline(),
           new History(),
         ],
-
-        onUpdate: ({ getHTML }) => {
-          this.$emit("editorContent", getHTML());
-        },
+        content: `
+          <h2>
+            Hiding Menu Bar
+          </h2>
+          <p>
+            Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
+          </p>
+        `,
       }),
-    };
-  },
-
-  beforeMount() {},
-  mounted() {},
-  update() {},
-  beforeDestroy() {
-    this.editor.destroy();
-  },
-  watch: {
-    value() {
-        if(this.editor.getHTML() == '<p></p>' && this.value) {
-            this.editor.setContent(this.value);
-        }
     }
   },
-  methods: {},
-};
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+}
 </script>

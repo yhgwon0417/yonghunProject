@@ -11,25 +11,15 @@
       disabled-field="notEnabled"
     ></b-form-select>
 
-    <b-form-group id="input-group-2" label="title:" label-for="input-2">
-      <b-form-input
-        id="input-2"
-        v-model="title"
-        placeholder="Enter name"
-        required
-      ></b-form-input>
-    </b-form-group>
+    <b-form-input
+      id="input-2"
+      v-model="title"
+      placeholder="Title"
+      required
+    ></b-form-input>
 
-    <!-- <b-form-group id="input-group-2" label="content:" label-for="input-2">
-      <b-form-textarea
-        id="input-2"
-        v-model="content"
-        placeholder="Enter name"
-        required
-      ></b-form-textarea>
-    </b-form-group> -->
-
-    <Tiptap @editorContent="editorContent" v-model="content" :props_content="this.content"></Tiptap>
+      <Tiptap @editorContent="editorContent" :value="content"></Tiptap>
+    
 
     <b-button
       v-on:click="fnDoWrite"
@@ -44,7 +34,7 @@
 </template>
 
 <script>
-import Tiptap from "../tiptap/Tiptap"
+import Tiptap from "../tiptap/Tiptap";
 
 export default {
   components: {

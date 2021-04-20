@@ -2,6 +2,7 @@
   <div class="editor">
     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
       <div class="menubar">
+
         <button
           class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
@@ -23,7 +24,7 @@
           :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
-          Strike
+          <icon name="strike" />
         </button>
 
         <button
@@ -31,7 +32,7 @@
           :class="{ 'is-active': isActive.underline() }"
           @click="commands.underline"
         >
-          Underline
+          <icon name="underline" />
         </button>
 
         <button
@@ -39,7 +40,7 @@
           :class="{ 'is-active': isActive.code() }"
           @click="commands.code"
         >
-          Code
+          <icon name="code" />
         </button>
 
         <button
@@ -47,7 +48,7 @@
           :class="{ 'is-active': isActive.paragraph() }"
           @click="commands.paragraph"
         >
-          Paragraph
+          <icon name="paragraph" />
         </button>
 
         <button
@@ -79,7 +80,7 @@
           :class="{ 'is-active': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
-          ul
+          <icon name="ul" />
         </button>
 
         <button
@@ -87,7 +88,7 @@
           :class="{ 'is-active': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
-          ol
+          <icon name="ol" />
         </button>
 
         <button
@@ -95,7 +96,7 @@
           :class="{ 'is-active': isActive.blockquote() }"
           @click="commands.blockquote"
         >
-          Quote
+          <icon name="quote" />
         </button>
 
         <button
@@ -103,20 +104,30 @@
           :class="{ 'is-active': isActive.code_block() }"
           @click="commands.code_block"
         >
-          code_block
+          <icon name="code" />
         </button>
 
-        <button class="menubar__button" @click="commands.horizontal_rule">
-          horizontal_rule
+        <button
+          class="menubar__button"
+          @click="commands.horizontal_rule"
+        >
+          <icon name="hr" />
         </button>
 
-        <button class="menubar__button" @click="commands.undo">
-          undo
+        <button
+          class="menubar__button"
+          @click="commands.undo"
+        >
+          <icon name="undo" />
         </button>
 
-        <button class="menubar__button" @click="commands.redo">
-          redo
+        <button
+          class="menubar__button"
+          @click="commands.redo"
+        >
+          <icon name="redo" />
         </button>
+
       </div>
     </editor-menu-bar>
 
@@ -125,13 +136,14 @@
 </template>
 
 <script>
-import Icon from "./Components/Icon";
-import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import Icon from 'Components/Icon'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
   CodeBlock,
   HardBreak,
   Heading,
+  HorizontalRule,
   OrderedList,
   BulletList,
   ListItem,
@@ -144,23 +156,18 @@ import {
   Strike,
   Underline,
   History,
-  HorizontalRule,
-} from "tiptap-extensions";
+  TrailingNode,
+} from 'tiptap-extensions'
 
 export default {
-  props: {
-    value: String,
-  },
   components: {
-    EditorMenuBar,
     EditorContent,
+    EditorMenuBar,
     Icon,
   },
-
   data() {
     return {
       editor: new Editor({
-        editable: true,
         extensions: [
           new Blockquote(),
           new BulletList(),
@@ -179,28 +186,25 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new TrailingNode({
+            node: 'paragraph',
+            notAfter: ['paragraph'],
+          }),
         ],
-
-        onUpdate: ({ getHTML }) => {
-          this.$emit("editorContent", getHTML());
-        },
+        content: `
+          <h2>
+            Trailing Paragraph
+          </h2>
+          <p>
+            In this demo we force to render a paragraph at the end of the document. This can be useful in some situations, for example after adding images.
+          </p>
+          <pre><code>Also, sometimes it's hard to remember to type \`cmd/ctrl + enter\` to leave a code block.</code></pre>
+        `,
       }),
-    };
-  },
-
-  beforeMount() {},
-  mounted() {},
-  update() {},
-  beforeDestroy() {
-    this.editor.destroy();
-  },
-  watch: {
-    value() {
-        if(this.editor.getHTML() == '<p></p>' && this.value) {
-            this.editor.setContent(this.value);
-        }
     }
   },
-  methods: {},
-};
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+}
 </script>
