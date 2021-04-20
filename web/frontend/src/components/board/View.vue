@@ -3,40 +3,39 @@
     <h1>게시판 상세보기</h1>
 
     <div class="AddWrap">
-      <form>
-        <table>
-          <tr>
-            <th>타입</th>
-            <td>
-              {{ type.name }}
-            </td>
-          </tr>
-          <tr>
-            <th>제목</th>
-            <td>{{ title }}</td>
-          </tr>
-          <tr>
-            <th>내용</th>
-            <td class="txt_cont" v-html="content"></td>
-          </tr>
-        </table>
-      </form>
-    </div>
-    <div class="btnWrap">
-      <a href="javascript:;" @click="fnProcMod" class="btn">수정</a>
-    </div>
-    <div class="btnWrap">
-      <a href="javascript:;" @click="fnDoDelete" class="btn">삭제</a>
-    </div>
-    <div class="btnWrap">
-      <a href="javascript:;" @click="fnProcList" class="btn">목록</a>
+      <b-form-input
+        id="input-2"
+        v-model="type.name"
+        required
+        readonly
+      ></b-form-input>
+      <b-form-input
+        id="input-2"
+        v-model="title"
+        placeholder="Title"
+        required
+        readonly
+      ></b-form-input>
+      <Tiptap @editorContent="editorContent" :value="content" readOnly></Tiptap>
+
+      <div>
+        <b-button-group>
+          <b-button  @click="fnProcMod" variant="primary">수정</b-button>
+          <b-button  @click="fnDoDelete" variant="primary">삭제</b-button>
+          <b-button  @click="fnProcList" variant="primary">목록</b-button>
+        </b-button-group>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Tiptap from "../tiptap/Tiptap";
 
 export default {
+  components: {
+    Tiptap,
+  },
   data() {
     return {
       menuNum: "",

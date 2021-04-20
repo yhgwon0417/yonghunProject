@@ -150,6 +150,7 @@ import {
 export default {
   props: {
     value: String,
+    readOnly: Boolean
   },
   components: {
     EditorMenuBar,
@@ -160,7 +161,7 @@ export default {
   data() {
     return {
       editor: new Editor({
-        editable: true,
+        editable: !this.readOnly,
         extensions: [
           new Blockquote(),
           new BulletList(),
@@ -196,11 +197,25 @@ export default {
   },
   watch: {
     value() {
-        if(this.editor.getHTML() == '<p></p>' && this.value) {
-            this.editor.setContent(this.value);
-        }
-    }
+      if (this.editor.getHTML() == "<p></p>" && this.value) {
+        this.editor.setContent(this.value);
+      }
+    },
   },
   methods: {},
 };
 </script>
+<style scoped>
+.editor {
+  margin-top: 1em;
+  border: 1px solid blanchedalmond;
+}
+
+.menubar {
+  background-color: rgb(168, 168, 168);
+}
+.editor__content {
+  border: 1px solid rgba(184, 184, 184, 0.774);
+}
+
+</style>

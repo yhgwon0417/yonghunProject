@@ -94,9 +94,6 @@ export default {
           if (res.data.results) {
             this.list = res.data.results;
             this.pagination.rows = res.data.count;
-            // console.log(res.data);
-            // this.paging = res.data.paging;
-            // this.no = this.paging.totalCount - ((this.paging.page-1) * this.paging.ipp);
           } else {
             alert("실행중 실패했습니다.\n다시 이용해 주세요.");
           }

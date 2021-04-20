@@ -18,18 +18,26 @@
       required
     ></b-form-input>
 
-      <Tiptap @editorContent="editorContent" :value="content"></Tiptap>
-    
+    <Tiptap @editorContent="editorContent" :value="content"></Tiptap>
 
-    <b-button
-      v-on:click="fnDoWrite"
-      v-if="this.menuNum == null"
-      variant="primary"
-      >등록</b-button
-    >
-    <b-button v-on:click="fnDoModify" v-if="this.menuNum == 2" variant="primary"
-      >수정</b-button
-    >
+    <div>
+      <b-button-group>
+        <b-button
+          block
+          v-on:click="fnDoWrite"
+          v-if="this.menuNum == null"
+          variant="primary"
+          >등록</b-button
+        >
+        <b-button
+          block
+          v-on:click="fnDoModify"
+          v-if="this.menuNum == 2"
+          variant="primary"
+          >수정</b-button
+        >
+      </b-button-group>
+    </div>
   </div>
 </template>
 
@@ -167,42 +175,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.tbAdd {
-  border-top: 1px solid #888;
-}
-.tbAdd th,
-.tbAdd td {
-  border-bottom: 1px solid #eee;
-  padding: 5px 0;
-}
-.tbAdd td {
-  padding: 10px 10px;
-  box-sizing: border-box;
-}
-.tbAdd td input {
-  width: 100%;
-  min-height: 30px;
-  box-sizing: border-box;
-  padding: 0 10px;
-}
-.tbAdd td textarea {
-  width: 100%;
-  min-height: 300px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-.btnWrap {
-  text-align: center;
-  margin: 20px 0 0 0;
-}
-.btnWrap a {
-  margin: 0 10px;
-}
-.btnAdd {
-  background: #43b984;
-}
-.btnDelete {
-  background: #f00;
-}
-</style>
+<style scoped></style>

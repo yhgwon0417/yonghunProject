@@ -1,6 +1,7 @@
 module.exports = {
     publicPath: '',
     devServer: {
+        compress: true,
         host:'0.0.0.0',
         disableHostCheck: true
     }

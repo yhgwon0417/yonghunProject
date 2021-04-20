@@ -21,8 +21,16 @@
         ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide img-src="../assets/image/코딩2.jpg">
-        <h1>Hello world!</h1>
+      <b-carousel-slide>
+        <template #img>
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="../assets/image/코딩2.jpg"
+            alt="image slot"
+          />
+        </template>
       </b-carousel-slide>
 
       <!-- Slides with image only -->
