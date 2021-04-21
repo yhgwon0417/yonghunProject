@@ -4,10 +4,44 @@
       <div class="menubar">
         <button
           class="menubar__button"
+          :class="{
+            'v-btn--active': isActive.paragraph({ textAlign: 'left' }),
+          }"
+          @click="commands.paragraph({ textAlign: 'left' })"
+        >
+          L
+        </button>
+        <button
+          class="menubar__button"
+          :class="{
+            'v-btn--active': isActive.paragraph({ textAlign: 'center' }),
+          }"
+          @click="commands.paragraph({ textAlign: 'center' })"
+        >
+          C
+        </button>
+        <button
+          class="menubar__button"
+          :class="{
+            'v-btn--active': isActive.paragraph({ textAlign: 'right' }),
+          }"
+          @click="commands.paragraph({ textAlign: 'right' })"
+        >
+          R
+        </button>
+
+        <button
+          class="menubar__button"
+          @click="showImagePrompt(commands.image)"
+        >
+          <icon name="image" />
+        </button>
+        <button
+          class="menubar__button"
           :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
-          <icon name="bold" />
+          B
         </button>
 
         <button
@@ -15,7 +49,7 @@
           :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
-          <icon name="italic" />
+          I
         </button>
 
         <button
@@ -23,7 +57,7 @@
           :class="{ 'is-active': isActive.strike() }"
           @click="commands.strike"
         >
-          Strike
+          S
         </button>
 
         <button
@@ -145,12 +179,15 @@ import {
   Underline,
   History,
   HorizontalRule,
+  Image,
 } from "tiptap-extensions";
+import Iframe from "./Iframe.js";
+import Paragraph from "./Paragraph.js";
 
 export default {
   props: {
     value: String,
-    readOnly: Boolean
+    readOnly: Boolean,
   },
   components: {
     EditorMenuBar,
@@ -180,8 +217,10 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
+          new Image(),
+          new Iframe(),
+          new Paragraph(),
         ],
-
         onUpdate: ({ getHTML }) => {
           this.$emit("editorContent", getHTML());
         },
@@ -202,7 +241,15 @@ export default {
       }
     },
   },
-  methods: {},
+  methods: {
+    showImagePrompt(command) {
+      const src = prompt("Enter the url of your image here");
+      if (src !== null) {
+        console.log(src);
+        command({ src });
+      }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -212,10 +259,9 @@ export default {
 }
 
 .menubar {
-  background-color: rgb(168, 168, 168);
+  background-color: rgb(255, 251, 193);
 }
 .editor__content {
-  border: 1px solid rgba(184, 184, 184, 0.774);
+  border: 1px solid rgba(255, 251, 193);
 }
-
 </style>

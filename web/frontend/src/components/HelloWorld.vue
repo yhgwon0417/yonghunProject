@@ -17,7 +17,7 @@
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="../assets/image/코딩1.jpg"
+        img-src=""
         ></b-carousel-slide>
 
       <!-- Slides with custom text -->
@@ -27,7 +27,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="480"
-            src="../assets/image/코딩2.jpg"
+            src=""
             alt="image slot"
           />
         </template>
