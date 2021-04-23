@@ -1,35 +1,29 @@
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+from importlib._common import _
+
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.db import models
-
-# Create your models here.
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-# Create your models here.
 from django.urls import reverse
 
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin, AbstractUser, UserManager
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_pk = models.IntegerField(blank=True)
-    email = models.EmailField(max_length=500, blank=True)
-    nickname = models.CharField(max_length=200, blank=True)
-    point = models.IntegerField(default=0)
-    like = models.CharField(max_length=200, blank=True)
-    phone = models.CharField(max_length=200, blank=True)
+from django.utils import timezone
 
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance, user_pk=instance.id)
+class UserManager(UserManager):
+    def create_superuser(self, *args, **kwargs):
+        return super().create_superuser(*args, **kwargs)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+class User(AbstractUser):
+    email = models.EmailField(unique=True)
+    objects = UserManager()  # blank=True: 폼(입력양식)에서 빈채로 저장되는 것을 허용, DB에는 ''로 저장 # CharField 및 TextField는 blank=True만 허용, null=True 허용 X n
+    nickname = models.CharField(blank=True, max_length=50)
+    introduction = models.TextField(blank=True, max_length=200)
+    # profile_image = models.ImageField(blank=True, null=True)  # null=True: DB에 NULL로 저장
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', ]
 
 
 class Company(models.Model):
@@ -81,30 +75,12 @@ class BlogType(models.Model):
 class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_create')
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_update')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    # updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='blog_update')
 
     type = models.ForeignKey(BlogType, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=20, blank=False)
-    content = RichTextUploadingField(blank=True, null=True, config_name='special',
-                                     external_plugin_resources=[('youtube',
-                                                                 '/static/ckeditor/plugins/youtube_2.1.14/youtube/',
-                                                                 'plugin.js',
-                                                                 )],
-                                     )
+    content = models.TextField(max_length=1000000)
 
     def get_absolute_url(self):
         return reverse('blog:blog-detail', args=[str(self.id)])
-
-
-class Comment(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
-                                   related_name='blog_comment_create')
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,
-                                   related_name='blog_comment_update')
-
-    blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True)
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='child_set')
-    comment = models.CharField(max_length=20, blank=False)

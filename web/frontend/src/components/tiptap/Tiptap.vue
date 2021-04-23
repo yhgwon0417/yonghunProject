@@ -41,7 +41,11 @@
           :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
+<<<<<<< HEAD
           B
+=======
+          Bold
+>>>>>>> parent of 979edc7 (Sum)
         </button>
 
         <button
@@ -49,7 +53,11 @@
           :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
+<<<<<<< HEAD
           I
+=======
+          Italic
+>>>>>>> parent of 979edc7 (Sum)
         </button>
 
         <button
@@ -154,12 +162,11 @@
       </div>
     </editor-menu-bar>
 
-    <editor-content class="editor__content" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor" v-model="content"/>
   </div>
 </template>
 
 <script>
-import Icon from "./Components/Icon";
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
@@ -185,14 +192,20 @@ import Iframe from "./Iframe.js";
 import Paragraph from "./Paragraph.js";
 
 export default {
+<<<<<<< HEAD
   props: {
     value: String,
     readOnly: Boolean,
   },
+=======
+>>>>>>> parent of 979edc7 (Sum)
   components: {
     EditorMenuBar,
     EditorContent,
-    Icon,
+  },
+  props: {
+    props_content: String,
+    props_editable: Boolean,
   },
 
   data() {
@@ -221,19 +234,28 @@ export default {
           new Iframe(),
           new Paragraph(),
         ],
+<<<<<<< HEAD
+=======
+        content: this.props_content,
+>>>>>>> parent of 979edc7 (Sum)
         onUpdate: ({ getHTML }) => {
+          //   console.log(getHTML());
           this.$emit("editorContent", getHTML());
+          
         },
       }),
     };
   },
-
+  watch() {},
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    
+  },
   update() {},
   beforeDestroy() {
     this.editor.destroy();
   },
+<<<<<<< HEAD
   watch: {
     value() {
       if (this.editor.getHTML() == "<p></p>" && this.value) {
@@ -250,6 +272,9 @@ export default {
       }
     },
   },
+=======
+  methods: {},
+>>>>>>> parent of 979edc7 (Sum)
 };
 </script>
 <style scoped>

@@ -11,4 +11,5 @@ class Blogfilter(FilterSet):
 
     class Meta:
         model = Blog
+
         fields = ['title' ]

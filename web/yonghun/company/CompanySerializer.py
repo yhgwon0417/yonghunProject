@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ..models import Company
 from ..schedule.ScheduleSerializer import ScheduleSerializer
@@ -17,6 +18,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
 
     serializer_class = CompanySerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     filter_backends = (DjangoFilterBackend,)
 

@@ -1,7 +1,7 @@
 
 from rest_framework import serializers, viewsets
 
-from ..models import Comment, BlogType
+from ..models import BlogType
 
 
 class TypeSerializer(serializers.ModelSerializer):

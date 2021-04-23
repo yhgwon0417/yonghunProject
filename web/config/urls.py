@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -26,9 +27,14 @@ urlpatterns = [
     path('', RedirectView.as_view(url='yonghun/')),
     path('yonghun/', include('yonghun.urls')),
 
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    ## Authentication
 
-    # path("api/auth", include("knox.urls")),
+    # path('account/', include('rest_auth.urls')),
+    # path('account/registration/', include('rest_auth.registration.urls')),
+    # path('account/', include('allauth.urls')),
+    # url(r'account/registration/confirm-email/(?P<key>.+)/$', confirm_email, name='confirm_email'),
+    # path('', include('django.contrib.auth.urls')),
+
 ]
 
 urlpatterns += path('accounts/', include('django.contrib.auth.urls')),

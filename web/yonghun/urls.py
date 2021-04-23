@@ -13,35 +13,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
-from django.contrib import admin
+
 from django.urls import path, include
-from rest_framework import routers
 
 from . import views
-from .blog import BlogSerializer
-from .comment import CommentSerializer
-from .views import HelloAPI, RegistrationAPI, LoginAPI, UserAPI, ProfileUpdateAPI
+# from .views import kakao_login, kakao_callback
+from .views import kakao_callback, kakao_login, KakaoToDjangoLogin
 
 urlpatterns = [
     path("", views.index, name='index'),
-    path("hello/", HelloAPI),
-
-    path("profile/", include('yonghun.profile.urls')),
+    ## Site
     path("blog/", include('yonghun.blog.urls')),
-    path("comment/", include('yonghun.comment.urls')),
+
     path("company/", include('yonghun.company.urls')),
     path("schedule/", include('yonghun.schedule.urls')),
     path("inspection/", include('yonghun.inspection.urls')),
     path("system/", include('yonghun.system.urls')),
     path("type/", include('yonghun.type.urls')),
-
-    # path("blog/comment/", include('yonghun.comment.urls')),
     path("contact/", include('yonghun.contact.urls')),
 
-    path("auth/register/", RegistrationAPI.as_view()),
-    path("auth/login/", LoginAPI.as_view()),
-    path("auth/user/", UserAPI.as_view()),
-    path("auth/profile/<int:user_pk>/update/", ProfileUpdateAPI.as_view()),
+    path('signup/', views.UserCreate.as_view()),
+    path('api-auth/', include('rest_framework.urls')),
+    path('account/login/kakao/', kakao_login, name='kakao_login'),
+    path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
+    path('account/login/kakao/todjango', KakaoToDjangoLogin.as_view(), name='kakao_todjango_login'),
 
 ]

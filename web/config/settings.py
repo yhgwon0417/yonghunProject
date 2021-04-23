@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
 import os
 from pathlib import Path
 
@@ -24,35 +25,63 @@ SECRET_KEY = '7sehy8po%1$xhy-5t(%2c@p!ou=wf0ww1vgzi@@q$tv&_uc!xo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'yonghun.net', 'www.yonghun.net']
-
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    ## Custom
     'yonghun',
-    'rest_framework',
-    'knox',
-    'widget_tweaks',
-    'corsheaders',
     'django_filters',
-    'crispy_forms',
-    'ckeditor',
-    'ckeditor_uploader',
+
+    # django-rest-auth
+    'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+
+    # django-allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # provider
+    'allauth.socialaccount.providers.kakao',
 ]
 
-CKEDITOR_UPLOAD_PATH = 'uploads/'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'kakao': {
+        'APP': {
+            'client_id': 'fcdb4932bf507a42c8be3ec4d0633ded',
+            'secret': 450585,
+            'key': ''
+        }
+    }
+}
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+
+    'PAGE_SIZE': 10,
+
 }
+
+AUTH_USER_MODEL = 'yonghun.User'
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -66,8 +95,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
-
-CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081' ]
 
 TEMPLATES = [
     {
@@ -97,24 +124,6 @@ DATABASES = {
     }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -133,36 +142,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REST_FRAMEWORK = {
-
-    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
-    'AGE_SIZE': 10,
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
-
-}
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'height': '250px',
-        'width': '100%',
-        'toolbar_Custom': [
-            ['Bold', 'Link', 'Image'],
-        ]
-    },
-    'special': {
-        'toolbar': 'Special',
-        'toolbar_Special': [
-            ['Bold', 'CodeSnippet', 'Youtube'],
-        ],
-        'extraPlugins': ','.join(['codesnippet', 'youtube']),
-    }
-}
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 
 LOGIN_REDIRECT_URL = '/'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
