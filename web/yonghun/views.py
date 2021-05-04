@@ -1,13 +1,17 @@
-import urllib
+from django.conf import settings
 from rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.kakao import views as kakao_views
+from allauth.socialaccount.providers.kakao import views as kakao_view
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+
+from django.http import JsonResponse
+
 import requests
 from django.shortcuts import render, redirect
 from rest_framework import generics
 
 from .models import User
 from .serializers import UserSerializer
+
 
 
 def index(request):
@@ -19,99 +23,56 @@ class UserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-def kakao_login(request):
-    app_rest_api_key = 'fcdb4932bf507a42c8be3ec4d0633ded'
-    redirect_uri = "http://127.0.0.1:8000/yonghun/account/login/kakao/callback"
-    return redirect(
-        f"https://kauth.kakao.com/oauth/authorize?client_id={app_rest_api_key}&redirect_uri={redirect_uri}&response_type=code"
-    )
+KAKAO_REST_API_KEY = "fcdb4932bf507a42c8be3ec4d0633ded"
+SECRET_KEY = "399851"
+BASE_URL = 'http://127.0.0.1:8000/'
+KAKAO_CALLBACK_URI = BASE_URL + 'yonghun/account/login/kakao/callback'
 
 
-# access token 요청
-class KakaoException(Exception):
+class KaKaoException(Exception):
     pass
 
 
-# access token 요청 함수
+def kakao_login(request):
+    rest_api_key = KAKAO_REST_API_KEY
+    return redirect(
+        f"https://kauth.kakao.com/oauth/authorize?client_id={rest_api_key}&redirect_uri={KAKAO_CALLBACK_URI}&response_type=code"
+    )
+
+
 def kakao_callback(request):
     try:
-        app_rest_api_key = 'fcdb4932bf507a42c8be3ec4d0633ded'
-        redirect_uri = "http://127.0.0.1:8000/yonghun/account/login/kakao/callback"
-        user_token = request.GET.get("code")
-
-        # post request
+        rest_api_key = KAKAO_REST_API_KEY
+        redirect_uri = KAKAO_CALLBACK_URI
+        code = request.GET.get("code")
         token_request = requests.get(
-            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={app_rest_api_key}&redirect_uri={redirect_uri}&code={user_token}"
-        )
-        token_response_json = token_request.json()
-        error = token_response_json.get("error", None)
-
-        # if there is an error from token_request
+            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={rest_api_key}&redirect_uri={redirect_uri}&code={code}")
+        token_request_json = token_request.json()
+        error = token_request_json.get("error")
         if error is not None:
-            raise KakaoException()
-        access_token = token_response_json.get("access_token")
+            raise KaKaoException()
+        access_token = token_request_json.get("access_token")
+        # profile_request = requests.get("https://kapi.kakao.com/v2/user/me", headers={"Authorization" : f"Bearer {access_token}"})
+        # profile_json = profile_request.json()
+        # kakao_account = profile_json.get('kakao_account')
+        # profile = kakao_account.get("profile")
+        # nickname = profile.get("nickname")
+        data = {'access_token': access_token, 'code': code}
 
-        # post request
-        profile_request = requests.post(
-            "https://kapi.kakao.com/v2/user/me",
-            headers={"Authorization": f"Bearer {access_token}"},
+        accept = requests.post(
+            "http://127.0.0.1:8000/yonghun/account/kakao/login/finish/", data=data
         )
-        profile_json = profile_request.json()
-
-        # parsing profile json
-        kakao_account = profile_json.get("kakao_account")
-        email = kakao_account.get("email", None)
-        if email is None:
-            raise KakaoException()  # 이메일은 필수제공 항목이 아니므로 수정 필요 (비즈니스 채널을 연결하면 검수 신청 후 필수 변환 가능)
-        profile = kakao_account.get("profile")
-        nickname = profile.get("nickname")
-        # profile_image = profile.get("thumbnail_image_url")  # 사이즈 'thumbnail_image_url' < 'profile_image_url'
-        # print('image', profile_image)
-
-        try:
-            user_in_db = User.objects.get(email=email)
-            # kakao계정 email이 서비스에 이미 따로 가입된 email 과 충돌한다면
-            if user_in_db.user_type != 'kakao':
-                raise KakaoException()
-            # 이미 kakao로 가입된 유저라면
-            else:
-                # 서비스에 rest-auth 로그인
-                data = {'code': user_token, 'access_token': access_token}
-                accept = requests.post(
-                    f"http://127.0.0.1:8000/account/login/kakao/todjango", data=data
-                )
-                accept_json = accept.json()
-                accept_jwt = accept_json.get("token")
-
-                # 프로필 정보 업데이트
-                User.objects.filter(email=email).update(username=nickname,
-                                                        email=email,
-                                                        # user_type='kakao',
-                                                        # profile_image=profile_image,
-                                                        is_active=True
-                                                        )
-
-        except User.DoesNotExist:
-            # 서비스에 rest-auth 로그인
-            data = {'code': user_token, 'access_token': access_token}
-            accept = requests.post(
-                f"http://127.0.0.1:8000/yonghun/account/login/kakao/todjango", data=data
-            )
-            accept_json = accept.json()
-            accept_jwt = accept_json.get("token")
-
-            User.objects.filter(email=email).update(username=nickname,
-                                                    email=email,
-                                                    # user_type='kakao',
-                                                    # profile_image=profile_image,
-                                                    is_active=True
-                                                    )
-        return redirect("http://127.0.0.1:8000/")  # 메인 페이지
-
-    except KakaoException:
-        return redirect("http://127.0.0.1:8000/yonghun/account/login")
+        # return redirect("http://127.0.0.1:8000/" + accept.json())
+        accept_json = accept.json()
+        error = accept_json.get("error")
+        if error is not None:
+            raise KaKaoException()
+        return JsonResponse(accept_json)
+    except KaKaoException:
+        return redirect('/error')
 
 
-class KakaoToDjangoLogin(SocialLoginView):
-    adapter_class = kakao_views.KakaoOAuth2Adapter
+class KakaoLogin(SocialLoginView):
+    adapter_class = kakao_view.KakaoOAuth2Adapter
     client_class = OAuth2Client
+    callback_url = KAKAO_CALLBACK_URI

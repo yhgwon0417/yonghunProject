@@ -5,13 +5,13 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
-        user = User.objects.create_user(
-            email=validated_data['email'],
-            username=validated_data['username'],
-            password=validated_data['password']
-        )
-        return user
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
     class Meta:
         model = User
-        fields = ['email', 'username', 'password']
+        fields = ['email', 'password']

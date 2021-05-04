@@ -41,11 +41,7 @@
           :class="{ 'is-active': isActive.bold() }"
           @click="commands.bold"
         >
-<<<<<<< HEAD
           B
-=======
-          Bold
->>>>>>> parent of 979edc7 (Sum)
         </button>
 
         <button
@@ -53,11 +49,7 @@
           :class="{ 'is-active': isActive.italic() }"
           @click="commands.italic"
         >
-<<<<<<< HEAD
           I
-=======
-          Italic
->>>>>>> parent of 979edc7 (Sum)
         </button>
 
         <button
@@ -192,21 +184,17 @@ import Iframe from "./Iframe.js";
 import Paragraph from "./Paragraph.js";
 
 export default {
-<<<<<<< HEAD
+
   props: {
     value: String,
     readOnly: Boolean,
   },
-=======
->>>>>>> parent of 979edc7 (Sum)
+
   components: {
     EditorMenuBar,
     EditorContent,
   },
-  props: {
-    props_content: String,
-    props_editable: Boolean,
-  },
+
 
   data() {
     return {
@@ -234,10 +222,6 @@ export default {
           new Iframe(),
           new Paragraph(),
         ],
-<<<<<<< HEAD
-=======
-        content: this.props_content,
->>>>>>> parent of 979edc7 (Sum)
         onUpdate: ({ getHTML }) => {
           //   console.log(getHTML());
           this.$emit("editorContent", getHTML());
@@ -246,7 +230,6 @@ export default {
       }),
     };
   },
-  watch() {},
   beforeMount() {},
   mounted() {
     
@@ -255,7 +238,6 @@ export default {
   beforeDestroy() {
     this.editor.destroy();
   },
-<<<<<<< HEAD
   watch: {
     value() {
       if (this.editor.getHTML() == "<p></p>" && this.value) {
@@ -272,9 +254,6 @@ export default {
       }
     },
   },
-=======
-  methods: {},
->>>>>>> parent of 979edc7 (Sum)
 };
 </script>
 <style scoped>

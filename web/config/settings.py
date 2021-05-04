@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import datetime
+import json
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,45 +41,77 @@ INSTALLED_APPS = [
     ## Custom
     'yonghun',
     'django_filters',
+    'debug_toolbar',
 
     # django-rest-auth
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
+    # 'rest_auth',
     'rest_auth.registration',
 
     # django-allauth
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
+    # 'allauth.socialaccount',
 
+    'django.contrib.sites',
     # provider
     'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.naver',
 ]
 
-SITE_ID = 1
+# ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
 
-SOCIALACCOUNT_PROVIDERS = {
-    'kakao': {
-        'APP': {
-            'client_id': 'fcdb4932bf507a42c8be3ec4d0633ded',
-            'secret': 450585,
-            'key': ''
-        }
-    }
-}
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+REST_USE_JWT = True
+ACCOUNT_LOGOUT_ON_GET = True
+
+SITE_ID = 2
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 
     'PAGE_SIZE': 10,
 
 }
+
+JWT_AUTH = {'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+            'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
+            'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+            'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+            'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
+            'JWT_SECRET_KEY': SECRET_KEY, 'JWT_GET_USER_SECRET_KEY': None, 'JWT_PUBLIC_KEY': None,
+            'JWT_PRIVATE_KEY': None, 'JWT_ALGORITHM': 'HS256', 'JWT_VERIFY': True, 'JWT_VERIFY_EXPIRATION': True,
+            'JWT_LEEWAY': 0, 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30), 'JWT_AUDIENCE': None,
+            'JWT_ISSUER': None,
+            'JWT_ALLOW_REFRESH': False, 'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
+            'JWT_AUTH_HEADER_PREFIX': 'JWT', 'JWT_AUTH_COOKIE': None, }
+REST_USE_JWT = True
+
+# AUTHENTICATION_BACKENDS = (
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+#
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
+
+SECRET_BASE_FILE = './secrets.json'
+secrets = json.loads(open(SECRET_BASE_FILE).read())
+for key, value in secrets.items():
+    setattr(sys.modules[__name__], key, value)
 
 AUTH_USER_MODEL = 'yonghun.User'
 
@@ -92,7 +126,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+DEBUG = True
 
 ROOT_URLCONF = 'config.urls'
 

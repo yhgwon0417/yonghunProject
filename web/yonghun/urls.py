@@ -18,7 +18,7 @@ from django.urls import path, include
 
 from . import views
 # from .views import kakao_login, kakao_callback
-from .views import kakao_callback, kakao_login, KakaoToDjangoLogin
+from .views import kakao_callback, kakao_login, KakaoLogin
 
 urlpatterns = [
     path("", views.index, name='index'),
@@ -31,11 +31,12 @@ urlpatterns = [
     path("system/", include('yonghun.system.urls')),
     path("type/", include('yonghun.type.urls')),
     path("contact/", include('yonghun.contact.urls')),
+    path("profile/", include('yonghun.profile.urls')),
 
-    path('signup/', views.UserCreate.as_view()),
-    path('api-auth/', include('rest_framework.urls')),
     path('account/login/kakao/', kakao_login, name='kakao_login'),
     path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
-    path('account/login/kakao/todjango', KakaoToDjangoLogin.as_view(), name='kakao_todjango_login'),
+    path('account/kakao/login/finish/', KakaoLogin.as_view(), name='kakao_todjango_login'),
 
 ]
+
+

@@ -20,6 +20,8 @@ class User(AbstractUser):
     objects = UserManager()  # blank=True: 폼(입력양식)에서 빈채로 저장되는 것을 허용, DB에는 ''로 저장 # CharField 및 TextField는 blank=True만 허용, null=True 허용 X n
     nickname = models.CharField(blank=True, max_length=50)
     introduction = models.TextField(blank=True, max_length=200)
+    user_type = models.CharField(blank=True, max_length=40)
+    username =models.CharField(unique=False, blank=True, max_length=50)
     # profile_image = models.ImageField(blank=True, null=True)  # null=True: DB에 NULL로 저장
 
     USERNAME_FIELD = 'email'
