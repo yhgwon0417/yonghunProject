@@ -28,7 +28,7 @@ class BlogViewSet(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
 
     authentication_classes = [BasicAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     # filter_backends = (DjangoFilterBackend,)
     # filter_fields = ('type', 'title')
 

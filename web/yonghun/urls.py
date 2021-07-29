@@ -37,6 +37,9 @@ urlpatterns = [
     path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
     path('account/kakao/login/finish/', KakaoLogin.as_view(), name='kakao_todjango_login'),
 
+    # path('account/login/google/callback/', google_callback, name='google_callback'),
+    # path('account/google/login/finish/', GoogleLogin.as_view(), name='google_todjango_login'),
+
 ]
 
 

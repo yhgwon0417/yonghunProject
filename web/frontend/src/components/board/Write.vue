@@ -20,9 +20,9 @@
       ></b-form-input>
     </b-form-group>
 
-<<<<<<< HEAD
+
     <Tiptap @editorContent="editorContent" :value="content"></Tiptap>
-=======
+
     <!-- <b-form-group id="input-group-2" label="content:" label-for="input-2">
       <b-form-textarea
         id="input-2"
@@ -32,8 +32,6 @@
       ></b-form-textarea>
     </b-form-group> -->
 
-    <Tiptap @editorContent="editorContent" v-model="content" :props_content="this.content"></Tiptap>
->>>>>>> parent of 979edc7 (Sum)
 
     <div>
       <b-button-group>
@@ -58,7 +56,7 @@
 
 <script>
 import Tiptap from "../tiptap/Tiptap"
-
+import instance from '../axios/interceptor'
 export default {
   components: {
     Tiptap,
@@ -88,8 +86,8 @@ export default {
       this.$router.push({ path: "./list" });
     },
     fnGetType() {
-      this.$axios
-        .get("http://yonghun.net:8000/yonghun/type/list/")
+      instance
+        .get("http://localhost:8000/yonghun/type/list/")
         .then((res) => {
           this.options = res.data.results;
         })
@@ -99,7 +97,7 @@ export default {
     },
     fnGetView() {
       this.$axios
-        .get("http://yonghun.net:8000/yonghun/blog/list/" + this.id + "/")
+        .get("http://localhost:8000/yonghun/blog/list/" + this.id + "/")
         .then((res) => {
           this.id = res.data.id;
           this.type = res.data.type.id;
@@ -135,7 +133,7 @@ export default {
 
       this.$axios
         .put(
-          "http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/",
+          "http://localhost:8000/yonghun/blog/list/" + this.form.id + "/",
 
           this.form
         )
@@ -166,10 +164,11 @@ export default {
         },
         title: this.title,
         content: this.content,
+        
       };
       console.log(this.form);
-      this.$axios
-        .post("http://yonghun.net:8000/yonghun/blog/list/", this.form)
+      instance
+        .post("http://localhost:8000/yonghun/blog/list/", this.form)
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");

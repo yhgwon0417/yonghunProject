@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     # django-allauth
     'allauth',
     'allauth.account',
-    # 'allauth.socialaccount',
+    'allauth.socialaccount',
 
     'django.contrib.sites',
     # provider
@@ -77,8 +77,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        ## 설정하면, CSRf 필요없음
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        ## 설정하면, Refresh 가능
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -94,9 +97,9 @@ JWT_AUTH = {'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
             'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
             'JWT_SECRET_KEY': SECRET_KEY, 'JWT_GET_USER_SECRET_KEY': None, 'JWT_PUBLIC_KEY': None,
             'JWT_PRIVATE_KEY': None, 'JWT_ALGORITHM': 'HS256', 'JWT_VERIFY': True, 'JWT_VERIFY_EXPIRATION': True,
-            'JWT_LEEWAY': 0, 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30), 'JWT_AUDIENCE': None,
+            'JWT_LEEWAY': 0, 'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1), 'JWT_AUDIENCE': None,
             'JWT_ISSUER': None,
-            'JWT_ALLOW_REFRESH': False, 'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
+            'JWT_ALLOW_REFRESH': True, 'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=1),
             'JWT_AUTH_HEADER_PREFIX': 'JWT', 'JWT_AUTH_COOKIE': None, }
 REST_USE_JWT = True
 
@@ -115,7 +118,7 @@ for key, value in secrets.items():
 
 AUTH_USER_MODEL = 'yonghun.User'
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081']
+CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081', 'http://127.0.0.1:8081']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -160,10 +163,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blessed',
+        'USER': 'yhgwon0417',
+        'PASSWORD': 'yhgwon0417',
+        'HOST': 'yeub.iptime.org',
+        'PORT': '35432',
     }
 }
 

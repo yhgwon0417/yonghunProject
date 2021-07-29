@@ -18,7 +18,7 @@
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
         img-src=""
-        ></b-carousel-slide>
+      ></b-carousel-slide>
 
       <!-- Slides with custom text -->
       <b-carousel-slide>

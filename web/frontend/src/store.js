@@ -18,8 +18,9 @@ export default new Vuex.Store({
       // TODO: Remove hardcoding of dev endpoints
       obtainJWT: 'http://127.0.0.1:8000/rest-auth/obtain_token/',
       refreshJWT: 'http://127.0.0.1:8000/rest-auth/refresh_token/',
+      logout: 'http://127.0.0.1:8000/rest-auth/logout/',
       baseUrl: 'http://127.0.0.1:8000/rest-auth/',
-      kakao:"http://127.0.0.1:8000/yonghun/account/login/kakao"
+      kakao:"http://127.0.0.1:8000/yonghun/account/kakao/login/finish/"
     }
   },
 

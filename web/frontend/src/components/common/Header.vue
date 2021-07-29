@@ -29,14 +29,35 @@
               ></b-dropdown-item
             >
           </b-nav-item-dropdown>
+          <b-nav-item href="#" v-if="!this.$store.state.isAuthenticated"><router-link to="/auth/login"
+                >로그인</router-link
+              ></b-nav-item>
+          <b-nav-item-dropdown v-else>
+          <!-- Using 'button-content' slot -->
+          <template #button-content>
+            <strong>
+            마이페이지</strong>
+          </template>
+          <b-dropdown-item href="#">내정보</b-dropdown-item>
+          <b-dropdown-item href="#"><router-link to="/auth/logout"
+                >로그아웃</router-link
+              ></b-dropdown-item>
+        </b-nav-item-dropdown>
+        
         </b-navbar-nav>
       </b-navbar>
+      
     </div>
   </header>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return{
+    }
+  },
+};
 </script>
 
 <style scoped>

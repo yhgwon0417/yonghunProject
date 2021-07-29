@@ -51,7 +51,9 @@
 </template>
 
 <script>
+import instance from '../axios/interceptor'
 export default {
+
   data() {
     //변수생성
     const fields = [
@@ -88,8 +90,8 @@ export default {
   },
   methods: {
     fnGetList() {
-      this.$axios
-        .get("http://yonghun.net:8000/yonghun/blog/list/")
+      instance
+        .get("http://localhost:8000/yonghun/blog/list/")
         .then((res) => {
           if (res.data.results) {
             this.list = res.data.results;
@@ -99,6 +101,7 @@ export default {
           }
         })
         .catch((err) => {
+          alert(err.response.status);
           console.log(err);
         });
     },
