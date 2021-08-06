@@ -2,7 +2,8 @@ from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers, viewsets
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from ..models import Blog
 
@@ -18,23 +19,13 @@ class BlogSerializer(WritableNestedModelSerializer, serializers.ModelSerializer)
         fields = '__all__'
 
 
-class IsOwnerOrReadOnly(object):
-    pass
-
-
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
 
     serializer_class = BlogSerializer
 
-    authentication_classes = [BasicAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_fields = ('type', 'title')
-
-    filter_fields = '__all__'
-    ordering_fields = '__all__'
-    search_fields = ('title',)
+    # authentication_classes = [JSONWebTokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

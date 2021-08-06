@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import instance from '../axios/interceptor';
+import instance from "../axios/interceptor";
 
 export default {
   data() {
@@ -92,22 +92,22 @@ export default {
     },
 
     fnGetList() {
-      
-      this.body = {
-        
-      };
-      
-      instance.get("http://localhost:8000/yonghun/company/list/", {
+      this.body = {};
+
+      instance
+        .get("http://localhost:8000/yonghun/company/list/", {
           params: this.body,
-        }, )
+        })
         .then((res) => {
           if (res.data.results) {
             this.results = res.data.results;
-          }})
+          }
+        })
         .catch((err) => {
-          if(err.response.status === 401)
-            alert('권한이 부족합니다');
           console.log(err);
+          alert(
+            "경력확인용 계정으로 로그인해야 합니다.(관리자에게 문의하세요)."
+          );
         });
     },
   },

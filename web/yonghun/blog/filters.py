@@ -8,7 +8,6 @@ class Blogfilter(FilterSet):
     title = CharFilter(lookup_expr='icontains', label="제목")
     content = CharFilter(lookup_expr='icontains', label="내용")
 
-
     class Meta:
         model = Blog
 

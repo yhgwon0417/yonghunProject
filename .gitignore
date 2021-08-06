@@ -1,3 +1,4 @@
 
+*.pyc
 venv/pyvenv.cfg
 web/db.sqlite3

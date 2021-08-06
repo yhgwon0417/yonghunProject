@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from ..inspection.InspectionSerializer import InspectionSerializer
 from ..models import Schedule
