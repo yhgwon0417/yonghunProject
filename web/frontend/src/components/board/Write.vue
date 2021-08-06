@@ -122,7 +122,7 @@ export default {
       this.form = {
         type: {
           id: this.type,
-          name: this.options[this.type - 1].name,
+          name: ""
         },
         title: this.title,
         content: this.content,
@@ -158,7 +158,6 @@ export default {
         //backend로 전송될 POST 데이터
         type: {
           id: this.type,
-          name: this.options[this.type - 1].name,
         },
         title: this.title,
         content: this.content,
