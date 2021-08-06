@@ -1,15 +1,16 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import serializers, viewsets, permissions
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, SAFE_METHODS
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from ..models import Company
 from ..schedule.ScheduleSerializer import ScheduleSerializer
 
 
-class IsOwnerOrReadOnly(object):
-    pass
+class IsAdminUserOrManager(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_staff
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -22,8 +23,9 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
-
     serializer_class = CompanySerializer
+
+    permission_classes = [IsAdminUserOrManager]
 
     filter_backends = (DjangoFilterBackend,)
 

@@ -20,9 +20,9 @@
 
       <div>
         <b-button-group>
-          <b-button  @click="fnProcMod" variant="primary">수정</b-button>
-          <b-button  @click="fnDoDelete" variant="primary">삭제</b-button>
-          <b-button  @click="fnProcList" variant="primary">목록</b-button>
+          <b-button @click="fnProcMod" variant="primary">수정</b-button>
+          <b-button @click="fnDoDelete" variant="primary">삭제</b-button>
+          <b-button @click="fnProcList" variant="primary">목록</b-button>
         </b-button-group>
       </div>
     </div>
@@ -31,6 +31,7 @@
 
 <script>
 import Tiptap from "../tiptap/Tiptap";
+import instance from "../axios/interceptor";
 
 export default {
   components: {
@@ -51,8 +52,8 @@ export default {
   },
   methods: {
     fnGetView() {
-      this.$axios
-        .get("http://yonghun.net:8000/yonghun/blog/list/" + this.form.id + "/")
+      instance
+        .get("yonghun/blog/list/" + this.form.id + "/")
         .then((res) => {
           (this.id = res.data.id), (this.type = res.data.type);
           this.title = res.data.title;
@@ -71,8 +72,8 @@ export default {
       this.$router.push({ path: "./write", query: this.form });
     },
     fnDoDelete() {
-      this.$axios
-        .delete("http://yonghun.net:8000/yonghun/blog/list/" + this.id + "/")
+      instance
+        .delete("yonghun/blog/list/" + this.id + "/")
         .then((res) => {
           alert("삭제되었습니다.");
           this.fnProcList();

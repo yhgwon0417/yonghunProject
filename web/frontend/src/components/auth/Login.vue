@@ -31,8 +31,8 @@
       </button>
     </form>
 
-    <div>
-      <Kakao @sendData="test" />
+    <div id="social">
+      <Kakao @sendData="kakao" />
     </div>
   </div>
 </template>
@@ -52,46 +52,6 @@ export default {
     };
   },
   methods: {
-    test(data) {
-      axios
-        .post(this.$store.state.endpoints.kakao, {
-          'access_token':data.access_token})
-        .then((response) => {
-          this.$store.commit("updateToken", response.data.token);
-          // get and set auth user
-          const base = {
-            baseURL: this.$store.state.endpoints.baseUrl,
-            headers: {
-              // Set your Authorization to 'JWT', not Bearer!!!
-              Authorization: `JWT ${this.$store.state.jwt}`,
-              "Content-Type": "application/json",
-            },
-            xhrFields: {
-              withCredentials: true,
-            },
-          };
-          // Even though the authentication returned a user object that can be
-          // decoded, we fetch it again. This way we aren't super dependant on
-          // JWT and can plug in something else.
-          const axiosInstance = axios.create(base);
-          axiosInstance({
-            url: "/user/",
-            method: "get",
-            params: {},
-          }).then((response) => {
-            this.$store.commit("setAuthUser", {
-              authUser: response.data,
-              isAuthenticated: true,
-            });
-            this.$router.push({ name: "Home" });
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          console.debug(error);
-          console.dir(error);
-        });
-    },
     authenticate() {
       const payload = {
         email: this.email,
@@ -130,17 +90,46 @@ export default {
           });
         })
         .catch((error) => {
+          alert("로그인이 실패했습니다.");
           console.log(error);
           console.debug(error);
           console.dir(error);
         });
     },
-
-    kakao() {
+    kakao(data) {
       axios
-        .get(this.$store.state.endpoints.kakao)
+        .post(this.$store.state.endpoints.kakao, {
+          access_token: data.access_token,
+        })
         .then((response) => {
-          console.log(response);
+          this.$store.commit("updateToken", response.data.token);
+          // get and set auth user
+          const base = {
+            baseURL: this.$store.state.endpoints.baseUrl,
+            headers: {
+              // Set your Authorization to 'JWT', not Bearer!!!
+              Authorization: `JWT ${this.$store.state.jwt}`,
+              "Content-Type": "application/json",
+            },
+            xhrFields: {
+              withCredentials: true,
+            },
+          };
+          // Even though the authentication returned a user object that can be
+          // decoded, we fetch it again. This way we aren't super dependant on
+          // JWT and can plug in something else.
+          const axiosInstance = axios.create(base);
+          axiosInstance({
+            url: "/user/",
+            method: "get",
+            params: {},
+          }).then((response) => {
+            this.$store.commit("setAuthUser", {
+              authUser: response.data,
+              isAuthenticated: true,
+            });
+            this.$router.push({ name: "Home" });
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -152,4 +141,8 @@ export default {
 };
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+#social {
+  border: 1px solid black;
+}
+</style>

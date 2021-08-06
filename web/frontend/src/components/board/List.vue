@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import instance from '../axios/interceptor'
+import instance from '../axios/interceptor';
 export default {
 
   data() {
@@ -60,7 +60,7 @@ export default {
       { key: "id", label: "번호", sortable: true },
       { key: "type", label: "분류", sortable: true },
       { key: "created_at", label: "작성일", sortable: true },
-      { key: "created_by", label: "작성자" },
+      { key: "user", label: "작성자" },
       { key: "title", label: "제목" },
     ];
     return {
@@ -91,7 +91,7 @@ export default {
   methods: {
     fnGetList() {
       instance
-        .get("http://localhost:8000/yonghun/blog/list/")
+        .get("/yonghun/blog/list/")
         .then((res) => {
           if (res.data.results) {
             this.list = res.data.results;

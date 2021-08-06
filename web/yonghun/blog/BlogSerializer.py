@@ -11,7 +11,7 @@ from ..type import TypeSerializer
 
 
 class BlogSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.nickname')
+    user = serializers.ReadOnlyField(source='user.email')
     type = TypeSerializer.TypeSerializer()
 
     class Meta:
@@ -24,8 +24,7 @@ class BlogViewSet(viewsets.ModelViewSet):
 
     serializer_class = BlogSerializer
 
-    # authentication_classes = [JSONWebTokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

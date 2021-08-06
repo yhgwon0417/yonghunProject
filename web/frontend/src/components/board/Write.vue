@@ -20,7 +20,6 @@
       ></b-form-input>
     </b-form-group>
 
-
     <Tiptap @editorContent="editorContent" :value="content"></Tiptap>
 
     <!-- <b-form-group id="input-group-2" label="content:" label-for="input-2">
@@ -31,7 +30,6 @@
         required
       ></b-form-textarea>
     </b-form-group> -->
-
 
     <div>
       <b-button-group>
@@ -55,8 +53,8 @@
 </template>
 
 <script>
-import Tiptap from "../tiptap/Tiptap"
-import instance from '../axios/interceptor'
+import Tiptap from "../tiptap/Tiptap";
+import instance from "../axios/interceptor";
 export default {
   components: {
     Tiptap,
@@ -87,7 +85,7 @@ export default {
     },
     fnGetType() {
       instance
-        .get("http://localhost:8000/yonghun/type/list/")
+        .get("yonghun/type/list/")
         .then((res) => {
           this.options = res.data.results;
         })
@@ -96,8 +94,8 @@ export default {
         });
     },
     fnGetView() {
-      this.$axios
-        .get("http://localhost:8000/yonghun/blog/list/" + this.id + "/")
+      instance
+        .get("yonghun/blog/list/" + this.id + "/")
         .then((res) => {
           this.id = res.data.id;
           this.type = res.data.type.id;
@@ -133,7 +131,7 @@ export default {
 
       this.$axios
         .put(
-          "http://localhost:8000/yonghun/blog/list/" + this.form.id + "/",
+          "yonghun/blog/list/" + this.form.id + "/",
 
           this.form
         )
@@ -164,11 +162,10 @@ export default {
         },
         title: this.title,
         content: this.content,
-        
       };
       console.log(this.form);
       instance
-        .post("http://localhost:8000/yonghun/blog/list/", this.form)
+        .post("yonghun/blog/list/", this.form)
         .then((res) => {
           if (res.data) {
             alert("등록되었습니다.");

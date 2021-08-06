@@ -15,6 +15,8 @@ class TypeViewSet(viewsets.ModelViewSet):
 
     serializer_class = TypeSerializer
 
+    
+
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = ('name',)
