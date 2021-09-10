@@ -5,7 +5,7 @@ from ..models import BlogType
 
 
 class TypeSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=False)
+    name = serializers.CharField(read_only=True)
     class Meta:
         model = BlogType
         fields = '__all__'

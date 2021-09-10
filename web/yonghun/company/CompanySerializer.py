@@ -20,6 +20,10 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = '__all__'
 
+    def get_schedule_set(self, instance):
+        schedules = instance.schedule_set.all().order_by('start_date')
+        return ScheduleSerializer(schedules, many=True).data
+
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()

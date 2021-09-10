@@ -58,7 +58,8 @@ def kakao_callback(request):
         # profile_json = profile_request.json()
         # kakao_account = profile_json.get('kakao_account')
         # profile = kakao_account.get("profile")
-        # nickname = profile.get("nickname")
+        # nickname = profile.get("nickna
+        # me")
         data = {'access_token': access_token, 'code': code}
 
         accept = requests.post(

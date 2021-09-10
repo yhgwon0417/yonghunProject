@@ -119,17 +119,22 @@ export default {
         this.$refs.title.focus(); //방식으로 선택자를 찾는다.
         return;
       }
+      // console.log(this.options[0].name);
+      // console.log(this.options[1].name);
+      // console.log(this.options[2].name);
+
       this.form = {
+        
         type: {
           id: this.type,
-          name: ""
+          name: "test"
         },
         title: this.title,
         content: this.content,
         id: this.id,
       };
 
-      this.$axios
+      instance
         .put(
           "yonghun/blog/list/" + this.form.id + "/",
 

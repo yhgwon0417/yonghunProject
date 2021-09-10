@@ -12,6 +12,8 @@ class InspectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class InspectionViewSet(viewsets.ModelViewSet):
     queryset = Inspection.objects.all()
 

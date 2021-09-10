@@ -55,9 +55,12 @@ export default {
       instance
         .get("yonghun/blog/list/" + this.form.id + "/")
         .then((res) => {
-          (this.id = res.data.id), (this.type = res.data.type);
+          
+          this.id = res.data.id; 
+          this.type = res.data.type;
           this.title = res.data.title;
           this.content = res.data.content.replace(/(\n)/g, "<br/>");
+          // alert(this.content);
         })
         .catch((err) => {
           console.log(err);
