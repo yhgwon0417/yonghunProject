@@ -9,6 +9,7 @@
     "dev": "vue-cli-service serve --mode dev --port 8081",
     "remote": "vue-cli-service serve --mode remote --port 8081"
   },
+  
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap-vue": "^2.21.2",
