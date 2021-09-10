@@ -9,7 +9,8 @@
     "dev": "vue-cli-service serve --mode dev --port 8081",
     "remote": "vue-cli-service serve --mode remote --port 8081",
     "running": "vue-cli-service serve --mode running --port 8081",
-    "remote": "vue-cli-service serve --mode remote --port 8081"
+    "remote": "vue-cli-service serve --mode remote --port 8081",
+    "running": "vue-cli-service serve --mode remote --port 8081"
 
   },
   
