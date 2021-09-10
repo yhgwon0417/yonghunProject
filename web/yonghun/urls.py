@@ -33,8 +33,8 @@ urlpatterns = [
     path("contact/", include('yonghun.contact.urls')),
     path("profile/", include('yonghun.profile.urls')),
 
-    path('account/login/kakao/', kakao_login, name='kakao_login'),
-    path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
+    # path('account/login/kakao/', kakao_login, name='kakao_login'),
+    # path('account/login/kakao/callback/', kakao_callback, name='kakao_callback'),
     path('account/kakao/login/finish/', KakaoLogin.as_view(), name='kakao_todjango_login'),
 
     # path('account/login/google/callback/', google_callback, name='google_callback'),

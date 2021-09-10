@@ -11,6 +11,7 @@ import Technic from "@/components/profile/Technic";
 import Login from "@/components/auth/Login";
 import Logout from "@/components/auth/Logout";
 import Kakao from "@/components/auth/Kakao";
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 
 Vue.use(VueRouter); //vue 라우터 사용
 

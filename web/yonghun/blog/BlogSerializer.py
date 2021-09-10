@@ -5,7 +5,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from ..models import Blog
+from ..models import Blog, BlogType
 
 from ..type import TypeSerializer
 
