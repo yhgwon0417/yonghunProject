@@ -101,6 +101,8 @@ JWT_AUTH = {'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
             'JWT_AUTH_HEADER_PREFIX': 'JWT', 'JWT_AUTH_COOKIE': None, }
 REST_USE_JWT = True
 
+ALLOWED_HOSTS = ["192.168.0.1"]
+
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`
 #     'django.contrib.auth.backends.ModelBackend',
@@ -130,9 +132,9 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+# ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
