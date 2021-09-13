@@ -14,13 +14,15 @@ export default new Vuex.Store({
     authUser: {},
     isAuthenticated: false,
     jwt: localStorage.getItem('token'),
+    baseUrl : process.env.VUE_APP_AHOST+":"+process.env.VUE_APP_APORT,
     endpoints: {
       // TODO: Remove hardcoding of dev endpoints
-      obtainJWT: 'http://127.0.0.1:8000/rest-auth/obtain_token/',
-      refreshJWT: 'http://127.0.0.1:8000/rest-auth/refresh_token/',
-      logout: 'http://127.0.0.1:8000/rest-auth/logout/',
-      baseUrl: 'http://127.0.0.1:8000/rest-auth/',
-      kakao:"http://127.0.0.1:8000/yonghun/account/kakao/login/finish/"
+      
+      obtainJWT: this.baseUrl+'/rest-auth/obtain_token/',
+      refreshJWT: this.baseUrl+'/rest-auth/refresh_token/',
+      logout: this.baseUrl+'/rest-auth/logout/',
+      baseUrl: this.baseUrl+'/rest-auth/',
+      kakao:this.baseUrl+'/yonghun/account/kakao/login/finish/'
     }
   },
 
