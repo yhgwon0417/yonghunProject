@@ -40,6 +40,7 @@
 <script>
 import axios from "axios";
 import Kakao from "./Kakao";
+import instance from '../axios/interceptor';
 
 export default {
   components: {
@@ -57,7 +58,7 @@ export default {
         email: this.email,
         password: this.password,
       };
-      axios
+      instance
         .post(this.$store.state.endpoints.obtainJWT, payload)
         .then((response) => {
           this.$store.commit("updateToken", response.data.token);
@@ -76,7 +77,7 @@ export default {
           // Even though the authentication returned a user object that can be
           // decoded, we fetch it again. This way we aren't super dependant on
           // JWT and can plug in something else.
-          const axiosInstance = axios.create(base);
+          const axiosInstance = instance.create(base);
           axiosInstance({
             url: "/user/",
             method: "get",
@@ -97,7 +98,7 @@ export default {
         });
     },
     kakao(data) {
-      axios
+      instance
         .post(this.$store.state.endpoints.kakao, {
           access_token: data.access_token,
         })
@@ -137,6 +138,7 @@ export default {
           console.dir(error);
         });
     },
+
   },
 };
 </script>
