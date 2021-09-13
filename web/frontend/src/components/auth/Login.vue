@@ -77,7 +77,7 @@ export default {
           // Even though the authentication returned a user object that can be
           // decoded, we fetch it again. This way we aren't super dependant on
           // JWT and can plug in something else.
-          const axiosInstance = instance.create(base);
+          const axiosInstance = axios.create(base);
           axiosInstance({
             url: "/user/",
             method: "get",
