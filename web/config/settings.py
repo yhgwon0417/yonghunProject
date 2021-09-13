@@ -101,7 +101,7 @@ JWT_AUTH = {'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
             'JWT_AUTH_HEADER_PREFIX': 'JWT', 'JWT_AUTH_COOKIE': None, }
 REST_USE_JWT = True
 
-ALLOWED_HOSTS = ["yeob.iptime.org"]
+ALLOWED_HOSTS = ["yeub.iptime.org"]
 
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`
