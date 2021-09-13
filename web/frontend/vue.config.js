@@ -5,7 +5,10 @@ module.exports = {
     host: "0.0.0.0",
     disableHostCheck: true,
     port: process.env.VUE_APP_PORT || 3000,
-  },
+  }
+};
+
+module.exports = {
   chainWebpack: (config) => {
     config.module
       .rule("vue")
