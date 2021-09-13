@@ -118,7 +118,7 @@ for key, value in secrets.items():
 
 AUTH_USER_MODEL = 'yonghun.User'
 
-CORS_ORIGIN_WHITELIST = ['yeub.iptime.org:8081']
+CORS_ORIGIN_WHITELIST = ['http://yeub.iptime.org:8081']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
