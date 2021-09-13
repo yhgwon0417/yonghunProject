@@ -116,7 +116,7 @@ for key, value in secrets.items():
 
 AUTH_USER_MODEL = 'yonghun.User'
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081', 'http://127.0.0.1:8081']
+# CORS_ORIGIN_WHITELIST = ['http://localhost:8081', 'http://yonghun.net:8081', 'http://127.0.0.1:8081']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
