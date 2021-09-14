@@ -13,6 +13,7 @@ from rest_framework import generics
 
 from .models import User
 from .serializers import UserSerializer
+from config.settings.base import HOST
 
 
 def index(request):
@@ -62,8 +63,9 @@ def kakao_callback(request):
         # me")
         data = {'access_token': access_token, 'code': code}
 
+
         accept = requests.post(
-            "http://127.0.0.1:8000/yonghun/account/kakao/login/finish/", data=data
+            f"{HOST}/yonghun/account/kakao/login/finish/", data=data
         )
 
         # return redirect("http://127.0.0.1:8000/" + str(accept))

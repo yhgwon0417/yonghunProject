@@ -13,5 +13,6 @@ DATABASES = {
     }
 }
 
+HOST = "http://yeub.iptime.org:8000"
 ALLOWED_HOSTS = ["yeub.iptime.org"]
 CORS_ORIGIN_WHITELIST = ['http://yeub.iptime.org:8081']

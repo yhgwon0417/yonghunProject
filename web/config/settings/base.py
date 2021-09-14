@@ -120,6 +120,8 @@ AUTH_USER_MODEL = 'yonghun.User'
 
 CORS_ORIGIN_WHITELIST = ['http://yeub.iptime.org:8081', "http://localhost:8081"]
 
+HOST = ''
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
