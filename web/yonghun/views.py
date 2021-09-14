@@ -64,7 +64,7 @@ def kakao_callback(request):
 
 
         accept = requests.post(
-            "http://yeub.iptime.org:8000/yonghun/account/kakao/login/finish/", data=data
+            "http://localhost:8000/yonghun/account/kakao/login/finish/", data=data
         )
 
         # return redirect("http://127.0.0.1:8000/" + str(accept))
