@@ -27,8 +27,8 @@ class UserCreate(generics.CreateAPIView):
 
 KAKAO_REST_API_KEY = "fcdb4932bf507a42c8be3ec4d0633ded"
 SECRET_KEY = "399851"
-# BASE_URL = 'http://127.0.0.1:8000/'
-BASE_URL = HOST +"/"
+BASE_URL = 'http://yeub.iptime.org:8000/'
+# BASE_URL = HOST +"/"
 KAKAO_CALLBACK_URI = BASE_URL + 'yonghun/account/login/kakao/callback'
 GOOGLE_CALLBACK_URI = BASE_URL + 'yonghun/account/login/google/callback/'
 
