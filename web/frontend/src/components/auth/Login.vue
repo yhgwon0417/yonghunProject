@@ -105,7 +105,7 @@ export default {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
           const base = {
-            baseURL: this.$store.state.endpoints.baseUrl,
+            baseURL: this.$store.state.target.api + this.$store.state.endpoints.baseUrl,
             headers: {
               // Set your Authorization to 'JWT', not Bearer!!!
               Authorization: `JWT ${this.$store.state.jwt}`,
