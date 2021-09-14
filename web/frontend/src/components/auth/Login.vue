@@ -97,8 +97,8 @@ export default {
         });
     },
     kakao(data) {
-      instance
-        .post(this.$store.state.endpoints.kakao, {
+      axios
+        .post(this.$store.state.target.api+this.$store.state.endpoints.kakao, {
           access_token: data.access_token,
         })
         .then((response) => {

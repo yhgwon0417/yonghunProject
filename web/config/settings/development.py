@@ -15,6 +15,5 @@ DATABASES = {
     }
 }
 
-HOST = "http://localhost:8000"
 ALLOWED_HOSTS = ["localhost"]
 CORS_ORIGIN_WHITELIST = ["http://localhost:8081"]
