@@ -40,7 +40,7 @@
 <script>
 import axios from "axios";
 import Kakao from "./Kakao";
-import instance from '../axios/interceptor';
+import instance from "../axios/interceptor";
 
 export default {
   components: {
@@ -48,6 +48,7 @@ export default {
   },
   data() {
     return {
+      url : "",
       email: "",
       password: "",
     };
@@ -64,9 +65,8 @@ export default {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
           const base = {
-            baseURL: this.$store.state.endpoints.baseUrl,
+            baseURL: this.$store.state.target.api+this.$store.state.endpoints.baseUrl,
             headers: {
-              // Set your Authorization to 'JWT', not Bearer!!!
               Authorization: `JWT ${this.$store.state.jwt}`,
               "Content-Type": "application/json",
             },
@@ -74,9 +74,8 @@ export default {
               withCredentials: true,
             },
           };
-          // Even though the authentication returned a user object that can be
-          // decoded, we fetch it again. This way we aren't super dependant on
-          // JWT and can plug in something else.
+
+
           const axiosInstance = axios.create(base);
           axiosInstance({
             url: "/user/",
@@ -116,9 +115,11 @@ export default {
               withCredentials: true,
             },
           };
+
           // Even though the authentication returned a user object that can be
           // decoded, we fetch it again. This way we aren't super dependant on
           // JWT and can plug in something else.
+
           const axiosInstance = axios.create(base);
           axiosInstance({
             url: "/user/",
@@ -138,7 +139,6 @@ export default {
           console.dir(error);
         });
     },
-
   },
 };
 </script>

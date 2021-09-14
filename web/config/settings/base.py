@@ -101,7 +101,7 @@ JWT_AUTH = {'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
             'JWT_AUTH_HEADER_PREFIX': 'JWT', 'JWT_AUTH_COOKIE': None, }
 REST_USE_JWT = True
 
-ALLOWED_HOSTS = ["yeub.iptime.org", "localhost"]
+
 
 # AUTHENTICATION_BACKENDS = (
 #     # Needed to login by username in Django admin, regardless of `allauth`
@@ -138,7 +138,6 @@ MIDDLEWARE = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-DEBUG = True
 
 ROOT_URLCONF = 'config.urls'
 
@@ -160,26 +159,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blessed',
-        'USER': 'yhgwon0417',
-        'PASSWORD': 'yhgwon0417',
-        'HOST': 'yeub.iptime.org',
-        'PORT': '35432',
-    }
-}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

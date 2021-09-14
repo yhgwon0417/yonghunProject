@@ -14,9 +14,12 @@ export default new Vuex.Store({
     authUser: {},
     isAuthenticated: false,
     jwt: localStorage.getItem('token'),
+    target:{
+      front: process.env.VUE_APP_HOST + ":" + process.env.VUE_APP_PORT,
+      api: process.env.VUE_APP_APIHOST + ":" + process.env.VUE_APP_APIPORT
+    },
     endpoints: {
       // TODO: Remove hardcoding of dev endpoints
-      
       obtainJWT: '/rest-auth/obtain_token/',
       refreshJWT: '/rest-auth/refresh_token/',
       logout: '/rest-auth/logout/',

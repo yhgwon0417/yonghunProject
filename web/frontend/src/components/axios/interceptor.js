@@ -8,9 +8,9 @@ import axios from "axios";
 
 
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_AHOST+":"+process.env.VUE_APP_APORT,
+  baseURL: process.env.VUE_APP_APIHOST+":"+process.env.VUE_APP_APIPORT,
   timeout: 3000,
-  // 해커 뉴스 API는 커스텀 헤더 넣으면 CORS걸려서 주석처리했습니다.
+  // 해커 뉴스 API는 커스텀 헤더 넣으면 CORS걸려서 주석처리했습니다. 
   // headers: {'X-Custom-Header': 'foobar'}
 });
 

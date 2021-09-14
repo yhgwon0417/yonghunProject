@@ -1,43 +1,33 @@
 <template lang="html">
-<div>
-    
-
-</div>
-
+  <div></div>
 </template>
 
 <script>
-import axios from 'axios'
+import instance from "../axios/interceptor";
+
 export default {
-  data () {
-    return {
-      
-    }
+  data() {
+    return {};
   },
-  mounted(){
+  mounted() {
     this.logout();
   },
   methods: {
-        logout(){
-          
-      axios.get(this.$store.state.endpoints.logout)
-        .then((response) =>{
+    logout() {
+      instance
+        .get(this.$store.state.endpoints.logout)
+        .then((response) => {
           console.log(response);
           this.$store.state.isAuthenticated = false;
           this.$store.state.jwt = null;
-          localStorage.removeItem('token')
-          
-
+          localStorage.removeItem("token");
         })
-        .catch((error)=>{
+        .catch((error) => {
           console.log(error);
-        })
-      
+        });
     },
-  }
-  
-}
+  },
+};
 </script>
 
-<style lang="css">
-</style>
+<style lang="css"></style>
