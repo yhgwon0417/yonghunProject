@@ -17,3 +17,4 @@ DATABASES = {
 
 ALLOWED_HOSTS = ["localhost"]
 CORS_ORIGIN_WHITELIST = ["http://localhost:8081"]
+HOST = "http://localhost:8000"
