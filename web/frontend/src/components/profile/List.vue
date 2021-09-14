@@ -95,7 +95,7 @@ export default {
       this.body = {};
 
       instance
-        .get("http://localhost:8000/yonghun/company/list/", {
+        .get("yonghun/company/list/", {
           params: this.body,
         })
         .then((res) => {
