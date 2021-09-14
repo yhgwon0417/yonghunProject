@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     'default': {
@@ -13,5 +13,5 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ["yeub.iptime.org", "localhost"]
+ALLOWED_HOSTS = ["yeub.iptime.org"]
 CORS_ORIGIN_WHITELIST = ['http://yeub.iptime.org:8081']
