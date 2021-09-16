@@ -77,7 +77,7 @@
             class="d-block img-fluid w-100"
             width="30"
             height="30"
-            src="@/assets/images/profile1.png"
+            src=""
             alt="image slot"
         /></template>
         <p id="introduction">
