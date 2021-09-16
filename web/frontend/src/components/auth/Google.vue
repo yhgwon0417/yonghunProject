@@ -16,8 +16,7 @@ export default {
   data() {
     return {
       params: {
-        client_id:
-          "150709819396-jnop8rju5j7dmc1d6alsk7ebjhljmp7m.apps.googleusercontent.com",
+        client_id: process.env.VUE_APP_GOOGLE,
       },
       // only needed if you want to render the button with the google ui
       renderParams: {
