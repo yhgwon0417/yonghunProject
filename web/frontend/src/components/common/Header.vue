@@ -1,9 +1,9 @@
 <template>
   <header>
     <div>
-      <b-navbar type="dark" variant="dark">
+      <b-navbar type="dark" variant="">
         <b-navbar-nav>
-          <b-nav-item href="#"><router-link to="/">홈</router-link></b-nav-item>
+          <b-nav-item href="#"><router-link to="/"></router-link></b-nav-item>
 
           <!-- Navbar dropdowns -->
           <b-nav-item-dropdown text="프로필" left>
@@ -66,7 +66,7 @@ header {
   text-align: center;
   position: relative;
   height: 0.5%;
-  background-color: rgb(234, 161, 48);
+  background-color: rgb(31, 145, 221);
   border-bottom: 1px solid #35495e;
 }
 </style>

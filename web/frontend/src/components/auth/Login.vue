@@ -1,40 +1,49 @@
 <template lang="html">
   <div>
-    <form class="login form">
-      <div class="field">
-        <label for="id_email">Email</label>
-        <input
-          v-model="email"
-          type="text"
-          placeholder="Email"
-          autofocus="autofocus"
-          maxlength="150"
-          id="id_email"
-        />
-      </div>
-      <div class="field">
-        <label for="id_password">Password</label>
-
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Password"
-          id="id_password"
-        />
-      </div>
-      <button
-        @click.prevent="get_token_from_drf"
-        class="button primary"
-        type="submit"
-      >
-        Log In
-      </button>
-    </form>
+    <div id="log">YongHun.net</div>
+    <div id="normal_form">
+      <form class="login form">
+        <div>
+          <img src="@/assets/images/icons8-id-64.png" height="40px;" />
+          &nbsp;&nbsp;&nbsp;
+          <input
+            v-model="email"
+            type="text"
+            placeholder="Email"
+            autofocus="autofocus"
+            maxlength="150"
+            height="20px;"
+            id="id_email"
+          />
+        </div>
+        <div>
+          <img src="@/assets/images/icons8-id-64.png" height="40px;" />
+          <input
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            id="id_password"
+          />
+        </div>
+        <div>
+          <img
+            src="@/assets/images/login.png"
+            height="40px;"
+            @click.prevent="get_token_from_drf"
+          />
+        </div>
+      </form>
+    </div>
 
     <div id="social">
-      <Kakao @getToken="get_token_from_kakao" />
-      <Naver />
-      <Google @getToken="get_token_from_google" />
+      <div>SNS 계정으로 간편하게 로그인 하세요.</div>
+      <div id="kakao">
+        <Kakao @getToken="get_token_from_kakao" />
+      </div>
+      <div id="naver">
+        <Naver />
+      </div>
+      <div id="google"><Google @getToken="get_token_from_google" /></div>
     </div>
   </div>
 </template>
@@ -157,4 +166,27 @@ export default {
 };
 </script>
 
-<style lang="css"></style>
+<style lang="css">
+#logo {
+  background-color: rgb(0, 255, 55);
+}
+#normal_form {
+  border: 1px solid black;
+  padding: 10px 30%;
+}
+
+#social {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+#kakao{
+  padding:0.2%;
+}
+#naver{
+  padding:0.2%;
+}
+#google{
+  padding:0.2%;
+}
+</style>
