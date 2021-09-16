@@ -15,11 +15,11 @@ export default {};
 footer {
   height: 50px;
   border-top: 1px;
-  background-color: black;
+  background-color: rgb(6, 162, 203);
   vertical-align: center;
   text-align: center;
   font-size: 16px;
-  color: #41b883;
+  color: #000000;
   margin: 0 0 0 0;
 }
 </style>

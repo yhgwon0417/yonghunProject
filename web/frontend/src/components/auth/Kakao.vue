@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-    <KakaoLogin
-      api-key="b5d876aa01293b162e25dfdad5b312fc"
-      image="kakao_account_login_btn_medium_wide"
-      :on-success="onSuccess"
-      :on-failure="onFailure"
-    />
+    <KakaoLogin api-key="b5d876aa01293b162e25dfdad5b312fc" image="kakao_account_login_btn_medium_wide" :on-success="onSuccess" :on-failure="onFailure"/>
   </div>
 </template>
 <script>
@@ -20,12 +15,13 @@ export default {
     onSuccess(data) {
       console.log(data);
       console.log("success");
-      this.$emit("getToken", data.access_token);
+      this.$emit('getToken', data.access_token);
     },
     onFailure(data) {
       console.log(data);
       console.log("failure");
     },
+
   },
 };
 </script>
