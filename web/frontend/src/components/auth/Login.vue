@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="login_box">
+  <div>
     <form class="login form">
       <div class="field">
         <label for="id_email">Email</label>
@@ -23,7 +23,7 @@
         />
       </div>
       <button
-        @click.prevent="authenticate"
+        @click.prevent="get_token_from_drf"
         class="button primary"
         type="submit"
       >
@@ -31,10 +31,10 @@
       </button>
     </form>
 
-    <div id="social_login">
-      <Kakao @sendData="kakao" />
+    <div id="social">
+      <Kakao @getToken="get_token_from_kakao" />
       <Naver />
-      <Google />
+      <Google @getToken="get_token_from_google" />
     </div>
   </div>
 </template>
@@ -61,6 +61,40 @@ export default {
   },
   methods: {
     authenticate() {
+      const base = {
+        baseURL:
+          this.$store.state.target.api + this.$store.state.endpoints.baseUrl,
+        timeout: 3000,
+        headers: {
+          Authorization: `JWT ${this.$store.state.jwt}`,
+          "Content-Type": "application/json",
+        },
+        xhrFields: {
+          withCredentials: true,
+        },
+      };
+
+      const axiosInstance = axios.create(base);
+      axiosInstance({
+        url: "/user/",
+        method: "get",
+        params: {},
+      })
+        .then((response) => {
+          this.$store.commit("setAuthUser", {
+            authUser: response.data,
+            isAuthenticated: true,
+          });
+          this.$router.push({ name: "Home" });
+        })
+        .catch((error) => {
+          alert("로그인이 실패했습니다.");
+          console.log(error);
+          console.debug(error);
+          console.dir(error);
+        });
+    },
+    get_token_from_drf() {
       const payload = {
         email: this.email,
         password: this.password,
@@ -70,96 +104,57 @@ export default {
         .then((response) => {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
-          const base = {
-            baseURL:
-              this.$store.state.target.api +
-              this.$store.state.endpoints.baseUrl,
-            headers: {
-              Authorization: `JWT ${this.$store.state.jwt}`,
-              "Content-Type": "application/json",
-            },
-            xhrFields: {
-              withCredentials: true,
-            },
-          };
-
-          const axiosInstance = axios.create(base);
-          axiosInstance({
-            url: "/user/",
-            method: "get",
-            params: {},
-          }).then((response) => {
-            this.$store.commit("setAuthUser", {
-              authUser: response.data,
-              isAuthenticated: true,
-            });
-            this.$router.push({ name: "Home" });
-          });
         })
         .catch((error) => {
-          alert("로그인이 실패했습니다.");
+          alert("DRF 서버로 부터 토큰을 받아오지 못했습니다.");
           console.log(error);
           console.debug(error);
           console.dir(error);
         });
+      this.authenticate();
     },
-    kakao(data) {
+
+    get_token_from_kakao(token) {
       axios
         .post(
           this.$store.state.target.api + this.$store.state.endpoints.kakao,
           {
-            access_token: data.access_token,
+            access_token: token,
           }
         )
         .then((response) => {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
-          const base = {
-            baseURL:
-              this.$store.state.target.api +
-              this.$store.state.endpoints.baseUrl,
-            headers: {
-              // Set your Authorization to 'JWT', not Bearer!!!
-              Authorization: `JWT ${this.$store.state.jwt}`,
-              "Content-Type": "application/json",
-            },
-            xhrFields: {
-              withCredentials: true,
-            },
-          };
-
-          // Even though the authentication returned a user object that can be
-          // decoded, we fetch it again. This way we aren't super dependant on
-          // JWT and can plug in something else.
-
-          const axiosInstance = axios.create(base);
-          axiosInstance({
-            url: "/user/",
-            method: "get",
-            params: {},
-          }).then((response) => {
-            this.$store.commit("setAuthUser", {
-              authUser: response.data,
-              isAuthenticated: true,
-            });
-            this.$router.push({ name: "Home" });
-          });
         })
         .catch((error) => {
           console.log(error);
           console.debug(error);
           console.dir(error);
         });
+      this.authenticate();
     },
-    naver() {},
-    google() {},
+
+    get_token_from_google(token) {
+      axios
+        .post(
+          this.$store.state.target.api + this.$store.state.endpoints.google,
+          {
+            access_token: token,
+          }
+        )
+        .then((response) => {
+          this.$store.commit("updateToken", response.data.token);
+          // get and set auth user
+        })
+        .catch((error) => {
+          console.log(error);
+          console.debug(error);
+          console.dir(error);
+        });
+      this.authenticate();
+    },
   },
 };
 </script>
 
-<style lang="css">
-#login_box{
-  background-color: blanchedalmond;
-  padding:1%;
-}
-  </style>
+<style lang="css"></style>

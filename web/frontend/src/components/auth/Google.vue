@@ -1,17 +1,17 @@
 <template>
-    <div id="googleLogin">
-      <GoogleLogin
-        :params="params"
-        :onSuccess="onSuccess"
-        :onFailure="onFailure"
-        :renderParams="renderParams"
-      />
-    </div>
+  <div id="googleLogin">
+    <GoogleLogin
+      :params="params"
+      :onSuccess="onSuccess"
+      :onFailure="onFailure"
+      :renderParams="renderParams"
+    />
+  </div>
 </template>
 
 <script>
 import GoogleLogin from "vue-google-login";
-import axios from "axios";
+
 export default {
   data() {
     return {
@@ -32,49 +32,8 @@ export default {
   },
   methods: {
     onSuccess(googleUser) {
-      const access_token = googleUser["Zb"]["access_token"];
-
-      axios
-        .post("http://localhost:8000/yonghun/account/google/login/finish/", {
-          access_token: access_token,
-        })
-        .then((response) => {
-           this.$store.commit("updateToken", response.data.token);
-          // get and set auth user
-          const base = {
-            baseURL:
-              this.$store.state.target.api +
-              this.$store.state.endpoints.baseUrl,
-            headers: {
-              // Set your Authorization to 'JWT', not Bearer!!!
-              Authorization: `JWT ${this.$store.state.jwt}`,
-              "Content-Type": "application/json",
-            },
-            xhrFields: {
-              withCredentials: true,
-            },
-          };
-
-          // Even though the authentication returned a user object that can be
-          // decoded, we fetch it again. This way we aren't super dependant on
-          // JWT and can plug in something else.
-
-          const axiosInstance = axios.create(base);
-          axiosInstance({
-            url: "/user/",
-            method: "get",
-            params: {},
-          }).then((response) => {
-            this.$store.commit("setAuthUser", {
-              authUser: response.data,
-              isAuthenticated: true,
-            });
-            this.$router.push({ name: "Home" });
-          });
-        });
-
-      // This only gets the user information: id, name, imageUrl and email
-      // console.log(googleUser.getBasicProfile());
+      const token = googleUser["Zb"]["access_token"];
+      this.$emit("getToken", token);
     },
     onFailure(data) {
       console.log(data);
@@ -84,6 +43,4 @@ export default {
   mounted() {},
 };
 </script>
-<style>
-
-</style>
+<style></style>
