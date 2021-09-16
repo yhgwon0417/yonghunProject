@@ -17,8 +17,8 @@ Including another URLconf
 from django.urls import path, include
 
 from . import views
-# from .views import kakao_login, kakao_callback
-from .views import kakao_callback, kakao_login, KakaoLogin
+
+from .views import KakaoLogin, GoogleLogin, NaverLogin
 
 urlpatterns = [
     path("", views.index, name='index'),
@@ -33,13 +33,13 @@ urlpatterns = [
     path("contact/", include('yonghun.contact.urls')),
     path("profile/", include('yonghun.profile.urls')),
 
-    # path('account/login/kakao/', kakao_login, name='kakao_login'),
-    # path('account/kakao/login/callback/', kakao_callback, name='kakao_callback'),
+    ## 카카오
     path('account/kakao/login/finish/', KakaoLogin.as_view(), name='kakao_todjango_login'),
-    
-    # path('account/login/google/callback/', google_callback, name='google_callback'),
-    # path('account/google/login/finish/', GoogleLogin.as_view(), name='google_todjango_login'),
+
+    ## 구글
+    path('account/google/login/finish/', GoogleLogin.as_view(), name='google_todjango_login'),
+
+    ## 네이버
+    path('account/naver/login/finish/', NaverLogin.as_view(), name='naver_todjango_login'),
 
 ]
-
-

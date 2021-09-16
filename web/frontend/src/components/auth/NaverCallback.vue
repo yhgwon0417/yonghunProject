@@ -1,45 +1,25 @@
 <template>
-    <div id="googleLogin">
-      <GoogleLogin
-        :params="params"
-        :onSuccess="onSuccess"
-        :onFailure="onFailure"
-        :renderParams="renderParams"
-      />
-    </div>
+  <div>
+    <p>Naver Callback Page</p>
+  </div>
 </template>
 
 <script>
-import GoogleLogin from "vue-google-login";
 import axios from "axios";
 export default {
   data() {
     return {
-      params: {
-        client_id:
-          "150709819396-jnop8rju5j7dmc1d6alsk7ebjhljmp7m.apps.googleusercontent.com",
-      },
-      // only needed if you want to render the button with the google ui
-      renderParams: {
-        width: 250,
-        height: 50,
-        longtitle: true,
-      },
+      access_token: "",
     };
   },
-  components: {
-    GoogleLogin,
-  },
   methods: {
-    onSuccess(googleUser) {
-      const access_token = googleUser["Zb"]["access_token"];
-
+    login() {
       axios
-        .post("http://localhost:8000/yonghun/account/google/login/finish/", {
-          access_token: access_token,
+        .post("http://localhost:8000/yonghun/account/naver/login/finish/", {
+          access_token: this.access_token,
         })
         .then((response) => {
-           this.$store.commit("updateToken", response.data.token);
+          this.$store.commit("updateToken", response.data.token);
           // get and set auth user
           const base = {
             baseURL:
@@ -71,19 +51,25 @@ export default {
             });
             this.$router.push({ name: "Home" });
           });
+        })
+        .then(() => {
+          // console.log(response);
+        })
+        .catch((error) => {
+          alert("로그인이 실패했습니다.");
+          console.log(error);
+          console.debug(error);
+          console.dir(error);
         });
-
-      // This only gets the user information: id, name, imageUrl and email
-      // console.log(googleUser.getBasicProfile());
-    },
-    onFailure(data) {
-      console.log(data);
-      console.log("failure");
     },
   },
-  mounted() {},
+  mounted() {
+    const naver_id_login = new window.naver_id_login(
+      "0lJPGodvjN6aXnN8Mn__",
+      "http://localhost:8081/#/naverCallback"
+    );
+    this.access_token = naver_id_login.getAccessToken(); // 정상적 로그인이 된 경우 access token값 출력
+    this.login();
+  },
 };
 </script>
-<style>
-
-</style>

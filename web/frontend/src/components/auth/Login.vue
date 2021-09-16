@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div id="login_box">
     <form class="login form">
       <div class="field">
         <label for="id_email">Email</label>
@@ -31,8 +31,10 @@
       </button>
     </form>
 
-    <div id="social">
+    <div id="social_login">
       <Kakao @sendData="kakao" />
+      <Naver />
+      <Google />
     </div>
   </div>
 </template>
@@ -40,15 +42,19 @@
 <script>
 import axios from "axios";
 import Kakao from "./Kakao";
+import Google from "./Google";
+import Naver from "./Naver";
 import instance from "../axios/interceptor";
 
 export default {
   components: {
     Kakao,
+    Google,
+    Naver,
   },
   data() {
     return {
-      url : "",
+      url: "",
       email: "",
       password: "",
     };
@@ -65,7 +71,9 @@ export default {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
           const base = {
-            baseURL: this.$store.state.target.api+this.$store.state.endpoints.baseUrl,
+            baseURL:
+              this.$store.state.target.api +
+              this.$store.state.endpoints.baseUrl,
             headers: {
               Authorization: `JWT ${this.$store.state.jwt}`,
               "Content-Type": "application/json",
@@ -74,7 +82,6 @@ export default {
               withCredentials: true,
             },
           };
-
 
           const axiosInstance = axios.create(base);
           axiosInstance({
@@ -98,14 +105,19 @@ export default {
     },
     kakao(data) {
       axios
-        .post(this.$store.state.target.api+this.$store.state.endpoints.kakao, {
-          access_token: data.access_token,
-        })
+        .post(
+          this.$store.state.target.api + this.$store.state.endpoints.kakao,
+          {
+            access_token: data.access_token,
+          }
+        )
         .then((response) => {
           this.$store.commit("updateToken", response.data.token);
           // get and set auth user
           const base = {
-            baseURL: this.$store.state.target.api + this.$store.state.endpoints.baseUrl,
+            baseURL:
+              this.$store.state.target.api +
+              this.$store.state.endpoints.baseUrl,
             headers: {
               // Set your Authorization to 'JWT', not Bearer!!!
               Authorization: `JWT ${this.$store.state.jwt}`,
@@ -139,12 +151,15 @@ export default {
           console.dir(error);
         });
     },
+    naver() {},
+    google() {},
   },
 };
 </script>
 
 <style lang="css">
-#social {
-  border: 1px solid black;
+#login_box{
+  background-color: blanchedalmond;
+  padding:1%;
 }
-</style>
+  </style>

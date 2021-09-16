@@ -1,13 +1,31 @@
 <template>
-    <div id="naverIdLogin"></div>
+  <div>
+    <div id="naver_id_login">
+      <img
+        src="@/assets/images/naver_login.png"
+        width="300px;"
+        height="50px;"
+      />
+    </div>
+  </div>
 </template>
 
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 <script>
-import { naverService } from '@/services/login/login';
 export default {
-    mounted() {
-        naverService().setNaver();
-    },
+  mounted() {
+    const naver_id_login = new window.naver_id_login(
+      "0lJPGodvjN6aXnN8Mn__",
+      "http://localhost:8081/#/naverCallback"
+    );
+    const state = naver_id_login.getUniqState();
+    naver_id_login.setButton("green", 3, 65); // 버튼 설정
+    naver_id_login.setState(state);
+    // naver_id_login.setPopup(); // popup 설정을 위한 코드
+    naver_id_login.init_naver_id_login();
+  },
+  methods: {},
 };
 </script>
+<style>
+
+</style>

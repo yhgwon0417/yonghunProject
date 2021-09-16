@@ -11,8 +11,15 @@ import Technic from "@/components/profile/Technic";
 import Login from "@/components/auth/Login";
 import Logout from "@/components/auth/Logout";
 import Kakao from "@/components/auth/Kakao";
+import Google from "@/components/auth/Google";
+import Naver from "@/components/auth/Naver";
+import NaverCallback from "@/components/auth/NaverCallback";
+import { LoaderPlugin } from 'vue-google-login';
 
 Vue.use(VueRouter); //vue 라우터 사용
+Vue.use(LoaderPlugin, {
+  client_id: "150709819396-jnop8rju5j7dmc1d6alsk7ebjhljmp7m.apps.googleusercontent.com"
+});
 
 const router = new VueRouter({
   routes: [
@@ -65,6 +72,21 @@ const router = new VueRouter({
       path: "/kakao", //상세페이지 추가
       name: Kakao,
       component: Kakao,
+    },
+    {
+      path: "/google", //상세페이지 추가
+      name: Google,
+      component: Google,
+    },
+    {
+      path: "/naver", //상세페이지 추가
+      name: Naver,
+      component: Naver,
+    },
+    {
+      path: "/naverCallback", //상세페이지 추가
+      name: NaverCallback,
+      component: NaverCallback,
     },
   ],
 });

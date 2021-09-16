@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <KakaoLogin api-key="b5d876aa01293b162e25dfdad5b312fc" image="kakao_login_btn_medium" :on-success="onSuccess" :on-failure="onFailure"/>
+    <KakaoLogin api-key="b5d876aa01293b162e25dfdad5b312fc" image="kakao_account_login_btn_medium_wide" :on-success="onSuccess" :on-failure="onFailure"/>
   </div>
 </template>
 <script>

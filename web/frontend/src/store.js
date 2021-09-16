@@ -24,7 +24,9 @@ export default new Vuex.Store({
       refreshJWT: '/rest-auth/refresh_token/',
       logout: '/rest-auth/logout/',
       baseUrl: '/rest-auth/',
-      kakao:"/yonghun/account/kakao/login/finish/"
+      kakao:"/yonghun/account/kakao/login/finish/",
+      google:"/yonghun/account/google/login/finish/",
+      naver:"/yonghun/account/naver/login/finish/"
     }
   },
 
