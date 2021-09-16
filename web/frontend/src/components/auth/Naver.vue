@@ -14,8 +14,10 @@
 export default {
   mounted() {
     const url = this.$store.state.target.front + "/#/naverCallback"
+    const client_id = process.env.VUE_APP_NAVER
+    
     const naver_id_login = new window.naver_id_login(
-      "0lJPGodvjN6aXnN8Mn__",
+      client_id,
       url
     );
     const state = naver_id_login.getUniqState();

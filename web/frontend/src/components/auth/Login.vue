@@ -64,7 +64,7 @@ export default {
       const base = {
         baseURL:
           this.$store.state.target.api + this.$store.state.endpoints.baseUrl,
-        timeout: 3000,
+        timeout: 10000,
         headers: {
           Authorization: `JWT ${this.$store.state.jwt}`,
           "Content-Type": "application/json",

@@ -8,15 +8,13 @@
 import axios from "axios";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   mounted() {
-    const url = this.$store.state.target.front + "/#/naverCallback"
-    const naver_id_login = new window.naver_id_login(
-      "0lJPGodvjN6aXnN8Mn__",
-      url
-    );
+    const url = this.$store.state.target.front + "/#/naverCallback";
+    const client_id = process.env.VUE_APP_NAVER;
+
+    const naver_id_login = new window.naver_id_login(client_id, url);
     const access_token = naver_id_login.getAccessToken(); // 정상적 로그인이 된 경우 access token값 출력
     this.get_token_from_naver(access_token);
   },
@@ -38,12 +36,13 @@ export default {
           console.debug(error);
           console.dir(error);
         });
-        this.authenticate();
+      this.authenticate();
     },
-    authenticate(){
+    authenticate() {
       const base = {
         baseURL:
           this.$store.state.target.api + this.$store.state.endpoints.baseUrl,
+        timeout: 10000,
         headers: {
           Authorization: `JWT ${this.$store.state.jwt}`,
           "Content-Type": "application/json",
@@ -72,7 +71,7 @@ export default {
           console.debug(error);
           console.dir(error);
         });
-    }
+    },
   },
 };
 </script>
