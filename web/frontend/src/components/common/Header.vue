@@ -66,7 +66,7 @@ header {
   text-align: center;
   position: relative;
   height: 0.5%;
-  background-color: rgb(31, 145, 221);
-  border-bottom: 1px solid #35495e;
+  background-color: rgb(6, 162, 203);
+  border-bottom: 1px solid #000000;
 }
 </style>

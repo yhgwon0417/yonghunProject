@@ -8,6 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import VueMoment from "vue-moment";
 import store from './store';
+import VueKakaoSdk from 'vue-kakao-sdk';
+
+const apiKey = 'b5d876aa01293b162e25dfdad5b312fc'
+
+Vue.use(VueKakaoSdk, {apiKey})
 
 Vue.use(VueMoment);
 

@@ -19,7 +19,7 @@ footer {
   vertical-align: center;
   text-align: center;
   font-size: 16px;
-  color: #000000;
+  color: #ffffff;
   margin: 0 0 0 0;
 }
 </style>

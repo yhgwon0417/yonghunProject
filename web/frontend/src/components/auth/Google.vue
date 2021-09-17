@@ -1,11 +1,12 @@
 <template>
   <div id="googleLogin">
     <GoogleLogin
+      id="google"
       :params="params"
       :onSuccess="onSuccess"
       :onFailure="onFailure"
-      :renderParams="renderParams"
-    />
+      ><img src="@/assets/images/google.png" width="45px;" height="45x;"/></GoogleLogin
+    >
   </div>
 </template>
 
@@ -20,9 +21,9 @@ export default {
       },
       // only needed if you want to render the button with the google ui
       renderParams: {
-        width: 250,
+        width: 50,
         height: 50,
-        longtitle: true,
+        longtitle: false,
       },
     };
   },
@@ -42,4 +43,11 @@ export default {
   mounted() {},
 };
 </script>
-<style></style>
+<style>
+#google {
+  /* background-color: white; */
+  border:none;
+  
+  
+}
+</style>

@@ -1,23 +1,20 @@
 <template lang="html">
-  <div>
-    <div id="log">YongHun.net</div>
+  <div id="layout">
+    <div id="log"><img src="@/assets/images/ci.png" /></div>
     <div id="normal_form">
       <form class="login form">
-        <div>
-          <img src="@/assets/images/icons8-id-64.png" height="40px;" />
-          &nbsp;&nbsp;&nbsp;
+        <div id="id">
           <input
             v-model="email"
             type="text"
             placeholder="Email"
             autofocus="autofocus"
             maxlength="150"
-            height="20px;"
+            height="30px;"
             id="id_email"
           />
         </div>
-        <div>
-          <img src="@/assets/images/icons8-id-64.png" height="40px;" />
+        <div id="passwd">
           <input
             v-model="password"
             type="password"
@@ -25,10 +22,11 @@
             id="id_password"
           />
         </div>
-        <div>
+        <div id="login">
           <img
             src="@/assets/images/login.png"
-            height="40px;"
+            height="auto;"
+            width="350px;"
             @click.prevent="get_token_from_drf"
           />
         </div>
@@ -37,13 +35,9 @@
 
     <div id="social">
       <div>SNS 계정으로 간편하게 로그인 하세요.</div>
-      <div id="kakao">
-        <Kakao @getToken="get_token_from_kakao" />
-      </div>
-      <div id="naver">
-        <Naver />
-      </div>
-      <div id="google"><Google @getToken="get_token_from_google" /></div>
+      <Kakao id="kakao" @getToken="get_token_from_kakao" />
+      <Naver id="naver" />
+      <Google id="google" @getToken="get_token_from_google" />
     </div>
   </div>
 </template>
@@ -170,23 +164,43 @@ export default {
 #logo {
   background-color: rgb(0, 255, 55);
 }
-#normal_form {
-  border: 1px solid black;
-  padding: 10px 30%;
-}
 
 #social {
   padding: 10px;
   border: 1px solid black;
+  width: 350px;
+  display: inline-block;
 }
 
-#kakao{
-  padding:0.2%;
+#layout {
+  text-align: center;
 }
-#naver{
-  padding:0.2%;
+
+input[type="text"],
+input[type="password"] {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #2d9fd9;
+  color: #a0d18c;
+  width: 350px;
+  height: 50px;
+  padding-left: 10px;
 }
-#google{
-  padding:0.2%;
+
+input[type="text"]:focus {
+  outline: none;
+  border: 1px solid #a0d18c;
+  color: #2d9fd9;
+}
+#id,
+#password,
+#login {
+  padding: 10px;
+}
+#kakao,
+#naver,
+#google {
+  display:inline-block;
 }
 </style>
